@@ -15,7 +15,7 @@ public class EventManagerTest {
     @Test
     public void getMethodsWithEventHandlerFrom_shouldReturnAllMethodWithTheEventHandlerAnnotation() {
         // Obtain method names that have @EventHandler annotation
-        List<Method> eventHandledMethods = EventManager.getMethodsWithEventHandlerFrom(WrongTestListener.class);
+        List<Method> eventHandledMethods = EventReflection.getHandledMethodsFrom(WrongTestListener.class);
         List<String> methodNames = eventHandledMethods.stream().map(Method::getName).collect(Collectors.toList());
 
         // Assert data
@@ -28,7 +28,7 @@ public class EventManagerTest {
     public void getEventFromMethod_shouldReturnAllMethodWithTheEventHandlerAnnotation() throws Exception {
         // Obtain event type from method.
         Method method = TestListener.class.getDeclaredMethod("updateFieldName", TestEvent.class);
-        Class<?> event = EventManager.getEventFromMethod(method);
+        Class<?> event = EventReflection.getEventFromMethod(method);
 
         // Assert data
         assertEquals("TestEvent", event.getSimpleName());
@@ -40,12 +40,12 @@ public class EventManagerTest {
         EventManager.registerEvents(new TestListener());
 
         // Obtain method listeners
-        List<RegisteredEventListener> methods = EventManager.getEventListenersFor(TestEvent.class);
-        Method method = methods.get(0).getMethod();
+        List<RegisteredEventListener> registeredListeners = EventManager.getEventListenersFor(TestEvent.class);
+        RegisteredEventListener eventListener = registeredListeners.get(0);
 
         // Assert data
-        assertEquals(1, methods.size());
-        assertEquals("updateFieldName", method.getName());
+        assertEquals(1, registeredListeners.size());
+        assertEquals("updateFieldName", eventListener.getName());
     }
 
     @Test
