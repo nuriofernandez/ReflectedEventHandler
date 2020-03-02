@@ -3,8 +3,11 @@ package me.nurio.events;
 import lombok.Getter;
 import lombok.Setter;
 import org.junit.Test;
+import org.junit.runners.model.TestClass;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,12 +38,14 @@ public class EventManagerTest {
     }
 
     @Test
-    public void registerEvents_shouldRegisterMethodsWithEventHandler_whenTheyAreCorrectlyWritten() {
+    public void registerEvents_shouldRegisterMethodsWithEventHandler_whenTheyAreCorrectlyWritten() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // Register events
         EventManager.registerEvents(new TestListener());
 
         // Obtain method listeners
-        List<RegisteredEventListener> registeredListeners = EventManager.getEventListenersFor(TestEvent.class);
+        Method method = EventManager.class.getDeclaredMethod("getEventListenersFor", Class.class);
+        method.setAccessible(true);
+        List<RegisteredEventListener> registeredListeners = (List<RegisteredEventListener>) method.invoke(EventManager.class, TestEvent.class);
         RegisteredEventListener eventListener = registeredListeners.get(0);
 
         // Assert data
