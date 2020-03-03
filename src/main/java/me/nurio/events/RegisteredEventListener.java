@@ -1,11 +1,7 @@
 package me.nurio.events;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NonNull;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class RegisteredEventListener {
@@ -15,14 +11,14 @@ public class RegisteredEventListener {
 
     @Getter private Class<?> event;
 
-    public RegisteredEventListener(Listener listener, Method method){
+    public RegisteredEventListener(Listener listener, Method method) {
         this.listener = listener;
         this.method = method;
 
         event = EventReflection.getEventFromMethod(method);
     }
 
-    public String getName(){
+    public String getName() {
         return method.getName();
     }
 
