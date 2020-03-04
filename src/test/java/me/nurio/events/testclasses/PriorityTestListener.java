@@ -16,9 +16,24 @@ public class PriorityTestListener implements Listener {
         // Monitor event
     }
 
+    @EventHandler
+    public void nonTagEventTwo(TestEvent eve) {
+        // Non-tag event
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void lowEvent(TestEvent eve) {
+        // Lowest event
+    }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void lowestEvent(TestEvent eve) {
         // Lowest event
+    }
+
+    @EventHandler
+    public void nonTagEventTree(TestEvent eve) {
+        // Non-tag event
     }
 
 }

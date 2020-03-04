@@ -44,11 +44,20 @@ public class EventManagerTest {
     }
 
     @Test
-    public void test(){
+    public void getEventListenersOrderedByPriorityFor_shouldReturnEventsSortedByPriority_whenProvidedListenerHasDifferentPrioritizedEvents(){
+        // Register listeners with prioritized events
         EventManager.registerEvents(new PriorityTestListener());
 
+        // Get events from Listeners
         List<RegisteredEventListener> list = EventManagement.getEventListenersOrderedByPriorityFor(TestEvent.class);
-        list.forEach(entry -> System.out.println(entry.getName()));
+
+        // Assert order
+        assertEquals("monitorEvent", list.get(0).getName());
+        assertEquals("nonTagEvent", list.get(1).getName().substring(0,11));
+        assertEquals("nonTagEvent", list.get(2).getName().substring(0,11));
+        assertEquals("nonTagEvent", list.get(3).getName().substring(0,11));
+        assertEquals("lowEvent", list.get(4).getName());
+        assertEquals("lowestEvent", list.get(5).getName());
     }
 
 }
