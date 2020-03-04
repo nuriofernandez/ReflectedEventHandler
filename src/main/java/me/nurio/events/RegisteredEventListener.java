@@ -1,5 +1,6 @@
 package me.nurio.events;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 
 import java.lang.reflect.Method;
@@ -9,25 +10,27 @@ public class RegisteredEventListener {
     private Listener listener;
     private Method method;
 
-    @Getter private Class<?> event;
+    @Getter(AccessLevel.PACKAGE)
+    private Class<?> event;
+
+    @Getter private EventPriority priority;
+    @Getter private String name;
 
     public RegisteredEventListener(Listener listener, Method method) {
         this.listener = listener;
         this.method = method;
 
+        name = method.getName();
         event = EventReflection.getEventFromMethod(method);
-    }
-
-    public String getName() {
-        return method.getName();
+        priority = EventReflection.getEventPriorityFromMethod(method);
     }
 
     public void invoke(Event event) {
         try {
             method.invoke(listener, event);
-            System.out.println("Launched event '" + method.getName() + "'");
+            System.out.println("Launched event '" + name + "'");
         } catch (Exception e) {
-            throw new RuntimeException("Error dispatching event '" + method.getName() + "'", e);
+            throw new RuntimeException("Error dispatching event '" + name + "'", e);
         }
     }
 

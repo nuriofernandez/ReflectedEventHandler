@@ -1,5 +1,6 @@
 package me.nurio.events;
 
+import me.nurio.events.testclasses.PriorityTestListener;
 import me.nurio.events.testclasses.TestEvent;
 import me.nurio.events.testclasses.TestListener;
 import org.junit.Test;
@@ -40,6 +41,14 @@ public class EventManagerTest {
 
         // Assert changes
         assertEquals("Changed", testEvent.getTestName());
+    }
+
+    @Test
+    public void test(){
+        EventManager.registerEvents(new PriorityTestListener());
+
+        List<RegisteredEventListener> list = EventManagement.getEventListenersOrderedByPriorityFor(TestEvent.class);
+        list.forEach(entry -> System.out.println(entry.getName()));
     }
 
 }

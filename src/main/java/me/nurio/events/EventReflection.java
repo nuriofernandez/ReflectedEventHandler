@@ -55,4 +55,15 @@ public class EventReflection {
         }
     }
 
+    /**
+     * Obtain {@link EventPriority} from reflection method.
+     *
+     * @param method Reflected method to find the EventPriority.
+     * @return EventPriority of the event method.
+     */
+    public static EventPriority getEventPriorityFromMethod(Method method) {
+        EventHandler handler = method.getAnnotation(EventHandler.class);
+        return handler.priority();
+    }
+
 }
