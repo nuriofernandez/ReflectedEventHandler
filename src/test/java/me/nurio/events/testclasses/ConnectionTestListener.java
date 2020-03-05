@@ -23,4 +23,11 @@ public class ConnectionTestListener implements Listener {
         eve.setWhoIsDisconnecting(eve.getWhoIsDisconnecting()+"Changed");
     }
 
+    @EventHandler
+    public void cancellableEvent(CancellableEvent event){
+        if(event.getName().equals("Jolin")) {
+            event.setCancelled(true);
+        }
+    }
+
 }
