@@ -1,9 +1,14 @@
 package me.nurio.events;
 
-public class Event {
+public abstract class Event {
 
-    public Event(){
-
+    /**
+     * Assert if the event can be cancelled.
+     *
+     * @return true if cancellable
+     */
+    public boolean isCancellable() {
+        return (this instanceof Cancellable);
     }
 
 }
