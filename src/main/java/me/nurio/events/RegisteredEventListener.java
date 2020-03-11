@@ -2,6 +2,9 @@ package me.nurio.events;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import me.nurio.events.handler.Event;
+import me.nurio.events.handler.EventPriority;
+import me.nurio.events.handler.Listener;
 
 import java.lang.reflect.Method;
 

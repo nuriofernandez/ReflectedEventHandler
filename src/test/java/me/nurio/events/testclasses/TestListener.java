@@ -1,7 +1,7 @@
 package me.nurio.events.testclasses;
 
-import me.nurio.events.EventHandler;
-import me.nurio.events.Listener;
+import me.nurio.events.handler.EventHandler;
+import me.nurio.events.handler.Listener;
 
 public class TestListener implements Listener {
 
