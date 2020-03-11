@@ -4,13 +4,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventPriority;
-import me.nurio.events.handler.Listener;
+import me.nurio.events.handler.EventListener;
 
 import java.lang.reflect.Method;
 
 public class RegisteredEventListener {
 
-    private Listener listener;
+    private EventListener listener;
     private Method method;
 
     @Getter(AccessLevel.PACKAGE)
@@ -19,7 +19,7 @@ public class RegisteredEventListener {
     @Getter private EventPriority priority;
     @Getter private String name;
 
-    public RegisteredEventListener(Listener listener, Method method) {
+    public RegisteredEventListener(EventListener listener, Method method) {
         this.listener = listener;
         this.method = method;
 

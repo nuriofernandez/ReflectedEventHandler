@@ -2,9 +2,9 @@ package me.nurio.events.testclasses;
 
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventPriority;
-import me.nurio.events.handler.Listener;
+import me.nurio.events.handler.EventListener;
 
-public class PriorityTestListener implements Listener {
+public class PriorityTestListener implements EventListener {
 
     @EventHandler
     public void nonTagEvent(TestEvent eve) {
