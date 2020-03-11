@@ -1,7 +1,7 @@
 package me.nurio.events;
 
 import me.nurio.events.handler.Event;
-import me.nurio.events.handler.Listener;
+import me.nurio.events.handler.EventListener;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class EventManager {
 
-    public static <L extends Listener> void registerEvents(L listener) {
+    public static <L extends EventListener> void registerEvents(L listener) {
         List<Method> eventListeners = EventReflection.getHandledMethodsFrom(listener.getClass());
         eventListeners.forEach(method -> EventManagement.registerEvent(new RegisteredEventListener(listener, method)));
     }
@@ -24,7 +24,7 @@ class EventManagement {
 
     private static Map<Class<?>, List<RegisteredEventListener>> eventMap = new HashMap<>();
 
-    static <L extends Listener> void registerEvent(RegisteredEventListener registeredEvent) {
+    static <L extends EventListener> void registerEvent(RegisteredEventListener registeredEvent) {
         eventMap.putIfAbsent(registeredEvent.getEvent(), new ArrayList<>());
         getEventListenersFor(registeredEvent.getEvent()).add(registeredEvent);
         System.out.println("Registered event => " + registeredEvent.getName());

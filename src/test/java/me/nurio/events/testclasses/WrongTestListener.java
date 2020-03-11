@@ -1,9 +1,9 @@
 package me.nurio.events.testclasses;
 
 import me.nurio.events.handler.EventHandler;
-import me.nurio.events.handler.Listener;
+import me.nurio.events.handler.EventListener;
 
-public class WrongTestListener implements Listener {
+public class WrongTestListener implements EventListener {
 
     @EventHandler
     public void wrongEventMethod() {
