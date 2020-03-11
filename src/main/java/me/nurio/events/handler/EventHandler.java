@@ -1,4 +1,4 @@
-package me.nurio.events;
+package me.nurio.events.handler;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

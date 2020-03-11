@@ -1,6 +1,9 @@
 package me.nurio.events;
 
 import me.nurio.events.exceptions.EventHandlerNotFoundException;
+import me.nurio.events.handler.Event;
+import me.nurio.events.handler.EventHandler;
+import me.nurio.events.handler.EventPriority;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;

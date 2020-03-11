@@ -1,8 +1,8 @@
 package me.nurio.events.testclasses;
 
 import lombok.*;
-import me.nurio.events.Cancellable;
-import me.nurio.events.Event;
+import me.nurio.events.handler.Cancellable;
+import me.nurio.events.handler.Event;
 
 @Data
 @RequiredArgsConstructor

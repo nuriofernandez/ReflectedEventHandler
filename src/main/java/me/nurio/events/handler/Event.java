@@ -1,4 +1,4 @@
-package me.nurio.events;
+package me.nurio.events.handler;
 
 public abstract class Event {
 
