@@ -10,6 +10,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class manages internally event's reflection operations.
+ */
 public class EventReflection {
 
     /**
@@ -25,8 +28,8 @@ public class EventReflection {
     /**
      * This method will obtain all methods with the EventHandler annotation.
      *
-     * @param classListener
-     * @return
+     * @param classListener Listener class handling events.
+     * @return List of reflected methods.
      */
     public static List<Method> getHandledMethodsFrom(Class<?> classListener) {
         return Arrays.stream(classListener.getMethods())
