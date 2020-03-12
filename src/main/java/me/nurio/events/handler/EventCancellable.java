@@ -1,6 +1,6 @@
 package me.nurio.events.handler;
 
-public interface Cancellable {
+public interface EventCancellable {
 
     boolean isCancelled();
 
