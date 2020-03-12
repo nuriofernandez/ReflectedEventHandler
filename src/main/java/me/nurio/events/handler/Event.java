@@ -8,7 +8,7 @@ public abstract class Event {
      * @return true if cancellable
      */
     public boolean isCancellable() {
-        return (this instanceof Cancellable);
+        return (this instanceof EventCancellable);
     }
 
 }
