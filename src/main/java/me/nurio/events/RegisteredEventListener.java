@@ -8,6 +8,9 @@ import me.nurio.events.handler.EventListener;
 
 import java.lang.reflect.Method;
 
+/**
+ * This class will map Registered Event Listener for using it as an object.
+ */
 public class RegisteredEventListener {
 
     private EventListener listener;
@@ -28,12 +31,17 @@ public class RegisteredEventListener {
         priority = EventReflection.getEventPriorityFromMethod(method);
     }
 
+    /**
+     * Execute the register event.
+     *
+     * @param event Called event instance.
+     */
     public void invoke(Event event) {
         try {
             method.invoke(listener, event);
-            System.out.println("Launched event '" + name + "'");
+            System.out.println("[EventManager] Launching '" + name + "' event.");
         } catch (Exception e) {
-            throw new RuntimeException("Error dispatching event '" + name + "'", e);
+            throw new RuntimeException("[EventManager] Error launching '" + name + "' event.", e);
         }
     }
 
