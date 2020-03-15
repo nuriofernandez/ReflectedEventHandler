@@ -27,7 +27,9 @@ public class EventManager {
      * @param event Event instance to call.
      */
     public static <E extends Event> void callEvent(E event) {
-        EventManagement.getEventListenersFor(event).forEach(listener -> listener.invoke(event));
+        EventManagement.getEventListenersFor(event).stream()
+                .filter(listener -> !event.isCancelled() || event.isCancelled() && listener.isIgnoreCancelled())
+                .forEach(listener -> listener.invoke(event));
     }
 
 }
