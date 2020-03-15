@@ -22,8 +22,28 @@ class EventManagement {
      */
     protected static void registerEvent(RegisteredEventListener registeredEvent) {
         eventMap.putIfAbsent(registeredEvent.getEvent(), new ArrayList<>());
-        getEventListenersFor(registeredEvent.getEvent()).add(registeredEvent);
+        getRegisteredEventListenersFor(registeredEvent.getEvent()).add(registeredEvent);
         System.out.println("[EventManager] The event handler '" + registeredEvent.getName() + "' was successful registered.");
+    }
+
+    /**
+     * Obtain a list of registered event handlers listening to provided event.
+     *
+     * @param event Handled event instance.
+     * @return List of Registered events.
+     */
+    protected static List<RegisteredEventListener>  getEventListenersFor(Event event) {
+        return getEventListenersFor(event.getClass());
+    }
+
+    /**
+     * Obtain a list of registered event handlers listening to provided event.
+     *
+     * @param event Handled event class type.
+     * @return List of Registered events.
+     */
+    protected static List<RegisteredEventListener>  getEventListenersFor(Class<?> event) {
+        return getEventListenersOrderedByPriorityFor(event);
     }
 
     /**
@@ -45,7 +65,7 @@ class EventManagement {
      * @return List of Registered events ordered by his EventPriority.
      */
     protected static List<RegisteredEventListener> getEventListenersOrderedByPriorityFor(Class<?> event) {
-        return getEventListenersFor(event).stream().sorted(Comparator.comparing(RegisteredEventListener::getPriority)).collect(Collectors.toList());
+        return getRegisteredEventListenersFor(event).stream().sorted(Comparator.comparing(RegisteredEventListener::getPriority)).collect(Collectors.toList());
     }
 
     /**
@@ -54,8 +74,8 @@ class EventManagement {
      * @param event Handled event instance.
      * @return List of Registered events.
      */
-    protected static List<RegisteredEventListener> getEventListenersFor(Event event) {
-        return getEventListenersFor(event.getClass());
+    protected static List<RegisteredEventListener> getRegisteredEventListenersFor(Event event) {
+        return getRegisteredEventListenersFor(event.getClass());
     }
 
     /**
@@ -64,7 +84,7 @@ class EventManagement {
      * @param event Handled event class type.
      * @return List of Registered events.
      */
-    protected static List<RegisteredEventListener> getEventListenersFor(Class<?> event) {
+    protected static List<RegisteredEventListener> getRegisteredEventListenersFor(Class<?> event) {
         return eventMap.getOrDefault(event, new ArrayList<>());
     }
 

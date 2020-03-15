@@ -27,7 +27,7 @@ public class EventManager {
      * @param event Event instance to call.
      */
     public static <E extends Event> void callEvent(E event) {
-        EventManagement.getEventListenersOrderedByPriorityFor(event).forEach(listener -> listener.invoke(event));
+        EventManagement.getEventListenersFor(event).forEach(listener -> listener.invoke(event));
     }
 
 }
