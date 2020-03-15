@@ -19,7 +19,7 @@ public class EventManagerTest {
         EventManager.registerEvents(new TestListener());
 
         // Obtain method listeners
-        Method method = EventManagement.class.getDeclaredMethod("getEventListenersFor", Class.class);
+        Method method = EventManagement.class.getDeclaredMethod("getRegisteredEventListenersFor", Class.class);
         method.setAccessible(true);
         List<RegisteredEventListener> registeredListeners = (List<RegisteredEventListener>) method.invoke(EventManager.class, TestEvent.class);
         RegisteredEventListener eventListener = registeredListeners.get(0);
