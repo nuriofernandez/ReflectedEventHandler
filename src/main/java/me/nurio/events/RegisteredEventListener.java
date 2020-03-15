@@ -20,6 +20,7 @@ public class RegisteredEventListener {
     private Class<?> event;
 
     @Getter private EventPriority priority;
+    @Getter private boolean ignoreCancelled;
     @Getter private String name;
 
     public RegisteredEventListener(EventListener listener, Method method) {
@@ -29,6 +30,7 @@ public class RegisteredEventListener {
         name = method.getName();
         event = EventReflection.getEventFromMethod(method);
         priority = EventReflection.getEventPriorityFromMethod(method);
+        ignoreCancelled = EventReflection.getIgnoreCancelledFromMethod(method);
     }
 
     /**

@@ -72,4 +72,15 @@ public class EventReflection {
         return handler.priority();
     }
 
+    /**
+     * Obtain 'ignoreCancelled' value from reflection method.
+     *
+     * @param method Reflected method to get the 'ignoreCancelled' value.
+     * @return 'true' when ignoreCancelled was enabled.
+     */
+    public static boolean getIgnoreCancelledFromMethod(Method method) {
+        EventHandler handler = method.getAnnotation(EventHandler.class);
+        return handler.ignoreCancelled();
+    }
+
 }
