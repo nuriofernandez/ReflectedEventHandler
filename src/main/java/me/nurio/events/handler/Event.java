@@ -19,4 +19,13 @@ public abstract class Event {
         return (this instanceof EventCancellable);
     }
 
+    /**
+     * Check if the event is cancellable and it was cancelled.
+     *
+     * @return 'true' when was cancelled.
+     */
+    public boolean isCancelled() {
+        return isCancellable() && ((EventCancellable) this).isCancelled();
+    }
+
 }
