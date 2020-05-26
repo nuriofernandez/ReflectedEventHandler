@@ -2,6 +2,24 @@
 
 Event system that allows you to create an event driven architecture in a easy and beautiful way.
 
+# Maven
+
+```xml
+<repository>
+    <id>nurio-repo</id>
+    <url>https://nurio.me/repo/mvn/</url>
+</repository>
+```
+
+```xml
+<dependency>
+    <groupId>me.nurio</groupId>
+    <artifactId>events</artifactId>
+    <version>0.0.1</version>
+    <scope>provided</scope>
+</dependency>
+```
+
 # Usage example
 
 ## Creating basic environment
