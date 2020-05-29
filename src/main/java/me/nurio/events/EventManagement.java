@@ -23,7 +23,7 @@ class EventManagement {
     protected static void registerEvent(RegisteredEventListener registeredEvent) {
         eventMap.putIfAbsent(registeredEvent.getEvent(), new ArrayList<>());
         getRegisteredEventListenersFor(registeredEvent.getEvent()).add(registeredEvent);
-        System.out.println("[EventManager] The event handler '" + registeredEvent.getName() + "' was successful registered.");
+        if (EventManager.isDebugLoggingEnabled()) System.out.println("[EventManager] The event handler '" + registeredEvent.getName() + "' was successful registered.");
     }
 
     /**
@@ -32,7 +32,7 @@ class EventManagement {
      * @param event Handled event instance.
      * @return List of Registered events.
      */
-    protected static List<RegisteredEventListener>  getEventListenersFor(Event event) {
+    protected static List<RegisteredEventListener> getEventListenersFor(Event event) {
         return getEventListenersFor(event.getClass());
     }
 
@@ -42,7 +42,7 @@ class EventManagement {
      * @param event Handled event class type.
      * @return List of Registered events.
      */
-    protected static List<RegisteredEventListener>  getEventListenersFor(Class<?> event) {
+    protected static List<RegisteredEventListener> getEventListenersFor(Class<?> event) {
         return getEventListenersOrderedByPriorityFor(event);
     }
 

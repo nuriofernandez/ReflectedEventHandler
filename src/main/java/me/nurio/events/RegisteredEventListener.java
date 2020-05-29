@@ -3,8 +3,8 @@ package me.nurio.events;
 import lombok.AccessLevel;
 import lombok.Getter;
 import me.nurio.events.handler.Event;
-import me.nurio.events.handler.EventPriority;
 import me.nurio.events.handler.EventListener;
+import me.nurio.events.handler.EventPriority;
 
 import java.lang.reflect.Method;
 
@@ -41,7 +41,7 @@ public class RegisteredEventListener {
     public void invoke(Event event) {
         try {
             method.invoke(listener, event);
-            System.out.println("[EventManager] Launching '" + name + "' event.");
+            if (EventManager.isDebugLoggingEnabled()) System.out.println("[EventManager] Launching '" + name + "' event.");
         } catch (Exception e) {
             throw new RuntimeException("[EventManager] Error launching '" + name + "' event.", e);
         }
