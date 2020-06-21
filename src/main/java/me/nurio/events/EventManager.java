@@ -1,8 +1,6 @@
 package me.nurio.events;
 
 import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventListener;

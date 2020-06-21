@@ -1,8 +1,8 @@
 package me.nurio.events.testclasses;
 
 import me.nurio.events.handler.EventHandler;
-import me.nurio.events.handler.EventPriority;
 import me.nurio.events.handler.EventListener;
+import me.nurio.events.handler.EventPriority;
 
 public class PriorityTestListener implements EventListener {
 
