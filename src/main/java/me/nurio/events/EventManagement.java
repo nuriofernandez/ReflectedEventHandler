@@ -1,5 +1,7 @@
 package me.nurio.events;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import me.nurio.events.handler.Event;
 
 import java.util.*;
@@ -8,22 +10,25 @@ import java.util.stream.Collectors;
 /**
  * This class manages internally event registry.
  */
+@RequiredArgsConstructor
 class EventManagement {
+
+    @NonNull private final EventManager eventManager;
 
     /**
      * Registered events mapped as 'EventClass' as key and list of 'RegisteredEventHandlers' for that event.
      */
-    private static Map<Class<?>, List<RegisteredEventListener>> eventMap = new HashMap<>();
+    private Map<Class<?>, List<RegisteredEventListener>> eventMap = new HashMap<>();
 
     /**
      * Register event handler to the event manager.
      *
      * @param registeredEvent RegisteredEvent instance of the event to register.
      */
-    protected static void registerEvent(RegisteredEventListener registeredEvent) {
+    protected void registerEvent(RegisteredEventListener registeredEvent) {
         eventMap.putIfAbsent(registeredEvent.getEvent(), new ArrayList<>());
         getRegisteredEventListenersFor(registeredEvent.getEvent()).add(registeredEvent);
-        if (EventManager.isDebugLoggingEnabled()) System.out.println("[EventManager] The event handler '" + registeredEvent.getName() + "' was successful registered.");
+        if (eventManager.isDebugLoggingEnabled()) System.out.println("[EventManager] The event handler '" + registeredEvent.getName() + "' was successful registered.");
     }
 
     /**
@@ -32,7 +37,7 @@ class EventManagement {
      * @param event Handled event instance.
      * @return List of Registered events.
      */
-    protected static List<RegisteredEventListener> getEventListenersFor(Event event) {
+    protected List<RegisteredEventListener> getEventListenersFor(Event event) {
         return getEventListenersFor(event.getClass());
     }
 
@@ -42,7 +47,7 @@ class EventManagement {
      * @param event Handled event class type.
      * @return List of Registered events.
      */
-    protected static List<RegisteredEventListener> getEventListenersFor(Class<?> event) {
+    protected List<RegisteredEventListener> getEventListenersFor(Class<?> event) {
         return getEventListenersOrderedByPriorityFor(event);
     }
 
@@ -53,7 +58,7 @@ class EventManagement {
      * @param event Handled event instance.
      * @return List of Registered events ordered by his EventPriority.
      */
-    protected static List<RegisteredEventListener> getEventListenersOrderedByPriorityFor(Event event) {
+    protected List<RegisteredEventListener> getEventListenersOrderedByPriorityFor(Event event) {
         return getEventListenersOrderedByPriorityFor(event.getClass());
     }
 
@@ -64,7 +69,7 @@ class EventManagement {
      * @param event Handled event class type.
      * @return List of Registered events ordered by his EventPriority.
      */
-    protected static List<RegisteredEventListener> getEventListenersOrderedByPriorityFor(Class<?> event) {
+    protected List<RegisteredEventListener> getEventListenersOrderedByPriorityFor(Class<?> event) {
         return getRegisteredEventListenersFor(event).stream().sorted(Comparator.comparing(RegisteredEventListener::getPriority)).collect(Collectors.toList());
     }
 
@@ -74,7 +79,7 @@ class EventManagement {
      * @param event Handled event instance.
      * @return List of Registered events.
      */
-    protected static List<RegisteredEventListener> getRegisteredEventListenersFor(Event event) {
+    protected List<RegisteredEventListener> getRegisteredEventListenersFor(Event event) {
         return getRegisteredEventListenersFor(event.getClass());
     }
 
@@ -84,7 +89,7 @@ class EventManagement {
      * @param event Handled event class type.
      * @return List of Registered events.
      */
-    protected static List<RegisteredEventListener> getRegisteredEventListenersFor(Class<?> event) {
+    protected List<RegisteredEventListener> getRegisteredEventListenersFor(Class<?> event) {
         return eventMap.getOrDefault(event, new ArrayList<>());
     }
 

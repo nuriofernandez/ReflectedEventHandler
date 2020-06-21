@@ -1,6 +1,8 @@
 package me.nurio.events;
 
 import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventListener;
@@ -13,19 +15,21 @@ import java.util.List;
  */
 public class EventManager {
 
+    private final EventManagement eventManagement = new EventManagement(this);
+
     /**
      * Disables or enables output debug messages from the event system.
      */
-    @Setter @Getter private static boolean debugLoggingEnabled;
+    @Setter @Getter private boolean debugLoggingEnabled;
 
     /**
      * Register event listener at the EventManager to fire its event when some handled event went called.
      *
      * @param listener EventListener event class instance.
      */
-    public static <L extends EventListener> void registerEvents(L listener) {
+    public <L extends EventListener> void registerEvents(L listener) {
         List<Method> eventListeners = EventReflection.getHandledMethodsFrom(listener.getClass());
-        eventListeners.forEach(method -> EventManagement.registerEvent(new RegisteredEventListener(listener, method)));
+        eventListeners.forEach(method -> eventManagement.registerEvent(new RegisteredEventListener(this, listener, method)));
     }
 
     /**
@@ -33,8 +37,8 @@ public class EventManager {
      *
      * @param event Event instance to call.
      */
-    public static <E extends Event> void callEvent(E event) {
-        EventManagement.getEventListenersFor(event).stream()
+    public <E extends Event> void callEvent(E event) {
+        eventManagement.getEventListenersFor(event).stream()
             .filter(listener -> !event.isCancelled() || event.isCancelled() && listener.isIgnoreCancelled())
             .forEach(listener -> listener.invoke(event));
     }

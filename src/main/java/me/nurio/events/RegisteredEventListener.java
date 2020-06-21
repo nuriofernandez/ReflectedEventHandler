@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
  */
 public class RegisteredEventListener {
 
+    private final EventManager eventManager;
     private EventListener listener;
     private Method method;
 
@@ -23,7 +24,8 @@ public class RegisteredEventListener {
     @Getter private boolean ignoreCancelled;
     @Getter private String name;
 
-    public RegisteredEventListener(EventListener listener, Method method) {
+    public RegisteredEventListener(EventManager eventManager, EventListener listener, Method method) {
+        this.eventManager = eventManager;
         this.listener = listener;
         this.method = method;
 
@@ -41,7 +43,7 @@ public class RegisteredEventListener {
     public void invoke(Event event) {
         try {
             method.invoke(listener, event);
-            if (EventManager.isDebugLoggingEnabled()) System.out.println("[EventManager] Launching '" + name + "' event.");
+            if (eventManager.isDebugLoggingEnabled()) System.out.println("[EventManager] Launching '" + name + "' event.");
         } catch (Exception e) {
             throw new RuntimeException("[EventManager] Error launching '" + name + "' event.", e);
         }
