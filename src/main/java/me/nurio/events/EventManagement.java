@@ -70,7 +70,9 @@ class EventManagement {
      * @return List of Registered events ordered by his EventPriority.
      */
     protected List<RegisteredEventListener> getEventListenersOrderedByPriorityFor(Class<?> event) {
-        return getRegisteredEventListenersFor(event).stream().sorted(Comparator.comparing(RegisteredEventListener::getPriority)).collect(Collectors.toList());
+        return getRegisteredEventListenersFor(event).stream()
+            .sorted(Comparator.comparing(RegisteredEventListener::getPriority))
+            .collect(Collectors.toList());
     }
 
     /**

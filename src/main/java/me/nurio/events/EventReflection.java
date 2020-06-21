@@ -33,8 +33,8 @@ public class EventReflection {
      */
     public static List<Method> getHandledMethodsFrom(Class<?> classListener) {
         return Arrays.stream(classListener.getMethods())
-                .filter(EventReflection::isHandledMethod)
-                .collect(Collectors.toList());
+            .filter(EventReflection::isHandledMethod)
+            .collect(Collectors.toList());
     }
 
     /**

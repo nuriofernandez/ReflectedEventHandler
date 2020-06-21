@@ -20,12 +20,12 @@ public class ConnectionTestListener implements EventListener {
     @EventHandler
     public void randomDisconnectEventListenerMethodName(DisconnectTestEvent eve) {
         if (eve.getWhoIsDisconnecting().equalsIgnoreCase(correctName)) return;
-        eve.setWhoIsDisconnecting(eve.getWhoIsDisconnecting()+"Changed");
+        eve.setWhoIsDisconnecting(eve.getWhoIsDisconnecting() + "Changed");
     }
 
     @EventHandler
-    public void cancellableEvent(CancellableEvent event){
-        if(event.getName().equals("Jolin")) {
+    public void cancellableEvent(CancellableEvent event) {
+        if (event.getName().equals("Jolin")) {
             event.setCancelled(true);
         }
     }
