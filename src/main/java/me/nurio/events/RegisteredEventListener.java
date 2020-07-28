@@ -45,7 +45,8 @@ public class RegisteredEventListener {
             method.invoke(listener, event);
             if (eventManager.isDebugLoggingEnabled()) System.out.println("[EventManager] Launching '" + name + "' event.");
         } catch (Exception e) {
-            throw new RuntimeException("[EventManager] Error launching '" + name + "' event.", e);
+            System.err.println("[EventManager] Error launching '" + name + "' event.");
+            e.printStackTrace();
         }
     }
 
