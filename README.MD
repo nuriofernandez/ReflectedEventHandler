@@ -22,9 +22,9 @@ Event system that allows you to create an event driven architecture in a easy an
 
 # Usage example
 
-For this example, some person is going to send a message, then our event management will process the sended message. What we want is the sended messages always **start with upper case letter** and **end with a final dot**.
+For this example, someone is going to send a message, then our event management will process it. First of all, it is required that every message **starts with upper case letter** and **ends with a final dot**, so after the processing it will meet this conditions.
 
-Then when the message sent is:
+So when the message sent is:
 ```
 hi this is random message
 ```
@@ -35,7 +35,7 @@ Hi this is random message.
 
 ## Register an EventManager instance for your application.
 
-EventManager records the listening of events and manages event calls. You will need an instance for your application. You can have more than one instance, but the event priority will not work.
+EventManager records the listening of events and manages event calls. You will need an instance for your application. Event though you can have more than one instance the event priority will not work for this particular case.
 
 > Note: That Lombok annotation creates getEventManager() method.
 ```java
@@ -53,7 +53,7 @@ public class Main {
 
 ## Creating basic event
 
-An event is a class that manages state of actions, in this case the sended message. For that, we are are creating the class `MessageSendEvent`. With the `sender` and `message` fields.
+An event is a class which manages the state of actions, in this case the action is "send message". For that, we are are creating the class `MessageSendEvent`. With the `sender` and `message` fields.
 > Note: These lombok annotations will automatically create *Getters*/*Setters* & *Constuctor*.
 ```java
 @Data
@@ -66,7 +66,7 @@ class MessageSendEvent extends Event {
 
 ## Calling the event
 
-Then, where we are performing the send message operation we are placing this new code:
+Then, we have placed this piece of code where we are performing the "send message" operation:
 ```java
 // EventManager instance for your whole application.
 private EventManager eventManager = Main.getEventManager();
@@ -86,9 +86,9 @@ public void sendMessage(String username, String message) {
 
 To create an event listener we just need to create a class implementing `EventListener`.
 
-Then, we need to register a method to handle the event, to do that, you have to create a method for that. It doesn't matter which name you choose, but you should use the `@EventHandler` annotation. Also, you have to specify a parameter with the event that you want to handle.
+Then, we need to register a method which will handle the event. It doesn't matter what name you choose, but you should use the `@EventHandler` annotation. Also, you have to specify a parameter with the event that you want to handle.
 
-You should have something like this: (You can register as many events as you want)
+You should have something like this (You can register as many events as you want):
 ```java
 public class MessageListener implements EventListener {
 
@@ -118,7 +118,7 @@ public class MessageListener implements EventListener {
 }
 ```
 
-Once you have created that class you have to register it, doesn't matter where you place teh register, but it has to be registered before calling the `EventManager#callEvent` or the `MessageListener` events won't be called.
+Once the class has been created you must register it, where you decide to place the register is not really important, but it has to be registered before calling the `EventManager#callEvent` or the `MessageListener` events won't be called.
 
 ```java
 public class Main {
