@@ -38,9 +38,13 @@ public class EventManager {
      * @param <E>   Event class type to call.
      */
     public <E extends Event> void callEvent(E event) {
-        eventManagement.getEventListenersFor(event).stream()
-            .filter(listener -> !event.isCancelled() || event.isCancelled() && listener.isIgnoreCancelled())
-            .forEach(listener -> listener.invoke(event));
+        for (RegisteredEventListener listener : eventManagement.getEventListenersFor(event)) {
+            // Skips cancelled events that are not ignoring that cancellation.
+            if (event.isCancelled() && (!event.isCancelled() || !listener.isIgnoreCancelled())) continue;
+
+            // Invoke que event handler method.
+            listener.invoke(event);
+        }
     }
 
 }
