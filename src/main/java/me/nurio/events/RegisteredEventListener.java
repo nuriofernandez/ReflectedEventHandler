@@ -29,7 +29,7 @@ public class RegisteredEventListener {
         this.listener = listener;
         this.method = method;
 
-        name = method.getName();
+        name = method.getDeclaringClass().getCanonicalName() + "#" + method.getName();
         event = EventReflection.getEventFromMethod(method);
         priority = EventReflection.getEventPriorityFromMethod(method);
         ignoreCancelled = EventReflection.getIgnoreCancelledFromMethod(method);

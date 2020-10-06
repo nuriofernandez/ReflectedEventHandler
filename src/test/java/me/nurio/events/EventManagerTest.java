@@ -37,7 +37,7 @@ public class EventManagerTest {
 
         // Assert data
         assertEquals(1, registeredListeners.size());
-        assertEquals("updateFieldName", eventListener.getName());
+        assertEquals("me.nurio.events.testclasses.TestListener#updateFieldName", eventListener.getName());
     }
 
     @Test
@@ -63,12 +63,15 @@ public class EventManagerTest {
         List<RegisteredEventListener> list = eventManagement.getEventListenersOrderedByPriorityFor(TestEvent.class);
 
         // Assert order
-        assertEquals("monitorEvent", list.get(0).getName());
-        assertEquals("nonTagEvent", list.get(1).getName().substring(0, 11));
-        assertEquals("nonTagEvent", list.get(2).getName().substring(0, 11));
-        assertEquals("nonTagEvent", list.get(3).getName().substring(0, 11));
-        assertEquals("lowEvent", list.get(4).getName());
-        assertEquals("lowestEvent", list.get(5).getName());
+        assertEquals("me.nurio.events.testclasses.PriorityTestListener#monitorEvent", list.get(0).getName());
+
+        // Substring name cause doesn't matters if #nonTagEvent, #nonTagEventTwo or #nonTagEventTree are fired in different order.
+        assertEquals("me.nurio.events.testclasses.PriorityTestListener#nonTagEvent", list.get(1).getName().substring(0, 60));
+        assertEquals("me.nurio.events.testclasses.PriorityTestListener#nonTagEvent", list.get(2).getName().substring(0, 60));
+        assertEquals("me.nurio.events.testclasses.PriorityTestListener#nonTagEvent", list.get(3).getName().substring(0, 60));
+
+        assertEquals("me.nurio.events.testclasses.PriorityTestListener#lowEvent", list.get(4).getName());
+        assertEquals("me.nurio.events.testclasses.PriorityTestListener#lowestEvent", list.get(5).getName());
     }
 
     private EventManagement getEventManagement() throws NoSuchFieldException, IllegalAccessException {
