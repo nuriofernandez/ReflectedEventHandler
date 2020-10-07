@@ -15,7 +15,7 @@ Event system that allows you to create an event driven architecture in a easy an
 <dependency>
     <groupId>me.nurio</groupId>
     <artifactId>events</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <scope>compile</scope>
 </dependency>
 ```
