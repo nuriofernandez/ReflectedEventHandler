@@ -2,6 +2,7 @@ package me.nurio.events;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import me.nurio.events.exceptions.EventHandlerNotFoundException;
 import me.nurio.events.handler.Event;
 
 import java.util.*;
@@ -49,6 +50,30 @@ class EventManagement {
 
         // Debug event listener registration.
         if (eventManager.isDebugLoggingEnabled()) System.out.println("[EventManager] The event handler '" + eventHandler.getName() + "' was successful registered.");
+    }
+
+    /**
+     * Un-register event handler from the event manager.
+     *
+     * @param registeredEvent RegisteredEvent instance of the event to un-register.
+     */
+    protected void unregisterEvent(RegisteredEventHandler registeredEvent) {
+        // Obtain already registered listeners and verify if the provided event is registered.
+        List<RegisteredEventHandler> registeredEventListeners = getEventHandlerFor(registeredEvent.getEvent());
+        if (!registeredEventListeners.contains(registeredEvent)) {
+            throw new EventHandlerNotFoundException(
+                String.format("Can not unregister '%s' event cause it's not registered yet.", registeredEvent.getName())
+            );
+        }
+
+        // Remove provided event
+        registeredEventListeners.remove(registeredEvent);
+
+        // Sort event' registered listeners by their assigned priority.
+        registeredEventListeners.sort(Comparator.comparing(RegisteredEventHandler::getPriority));
+
+        // Debug event listener registration.
+        if (eventManager.isDebugLoggingEnabled()) System.out.println("[EventManager] The event handler '" + registeredEvent.getName() + "' was successful un-registered.");
     }
 
     /**
