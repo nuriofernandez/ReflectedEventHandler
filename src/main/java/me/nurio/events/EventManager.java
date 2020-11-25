@@ -53,6 +53,22 @@ public class EventManager {
     }
 
     /**
+     * Unregister event listener at the EventManager.
+     *
+     * @param listener EventListener event class instance.
+     * @param <L>      Event listener class type to unregister.
+     */
+    public <L extends EventListener> void unregisterEvents(L listener) {
+        // Obtain all registered event handlers from the EventManagement instance.
+        List<RegisteredEventHandler> eventHandlers = eventManagement.getRegisteredEvents().stream()
+            .filter(registeredListener -> registeredListener.getListener().equals(listener))
+            .collect(Collectors.toList());
+
+        // Unregister each event handler of the provided EventHandler.
+        eventHandlers.forEach(eventManagement::unregisterEvent);
+    }
+
+    /**
      * Call all event handlers listening for the provided event.
      *
      * @param event Event instance to call.

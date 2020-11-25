@@ -46,6 +46,29 @@ public class EventManagerTest {
     }
 
     @Test
+    public void unregisterEvents_shouldUnregisterRegisteredEventHandlerMethods_whenProvidedListenerAreAlreadyRegistered() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+        // Event to register & unregister
+        TestListener testListener = new TestListener();
+
+        // Register events
+        eventManager.registerEvents(testListener);
+
+        // Obtain method listeners
+        Method method = eventManagement.getClass().getDeclaredMethod("getEventHandlerFor", Class.class);
+        method.setAccessible(true);
+        List<RegisteredEventHandler> registeredListeners = (List<RegisteredEventHandler>) method.invoke(eventManagement, TestEvent.class);
+        RegisteredEventHandler eventListener = registeredListeners.get(0);
+
+        // Assert registered data
+        assertEquals(1, registeredListeners.size());
+        assertEquals("me.nurio.events.EventManagerTest.TestListener#updateFieldName", eventListener.getName());
+
+        // Unregister and assert unregistered data
+        eventManager.unregisterEvents(testListener);
+        assertEquals(0, registeredListeners.size());
+    }
+
+    @Test
     public void callEvent_shouldUpdateTestNameField_whenTestEventUpdateFieldNameUpdatesTheField() {
         // Register events
         eventManager.registerEvents(new TestListener());
