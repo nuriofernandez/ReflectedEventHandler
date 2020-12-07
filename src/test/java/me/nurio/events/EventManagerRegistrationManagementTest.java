@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * This class proves the behavior of the EventManager event registering and event calling.
  */
-public class EventManagerTest {
+public class EventManagerRegistrationManagementTest {
 
     private EventManager eventManager;
     private EventManagement eventManagement;
@@ -42,7 +42,7 @@ public class EventManagerTest {
 
         // Assert data
         assertEquals(1, registeredListeners.size());
-        assertEquals("me.nurio.events.EventManagerTest.TestListener#updateFieldName", eventListener.getName());
+        assertEquals("me.nurio.events.EventManagerRegistrationManagementTest.TestListener#updateFieldName", eventListener.getName());
     }
 
     @Test
@@ -61,25 +61,11 @@ public class EventManagerTest {
 
         // Assert registered data
         assertEquals(1, registeredListeners.size());
-        assertEquals("me.nurio.events.EventManagerTest.TestListener#updateFieldName", eventListener.getName());
+        assertEquals("me.nurio.events.EventManagerRegistrationManagementTest.TestListener#updateFieldName", eventListener.getName());
 
         // Unregister and assert unregistered data
         eventManager.unregisterEvents(testListener);
         assertEquals(0, registeredListeners.size());
-    }
-
-    @Test
-    public void callEvent_shouldUpdateTestNameField_whenTestEventUpdateFieldNameUpdatesTheField() {
-        // Register events
-        eventManager.registerEvents(new TestListener());
-
-        // Perform event call
-        TestEvent testEvent = new TestEvent();
-        testEvent.setTestName("Random");
-        eventManager.callEvent(testEvent);
-
-        // Assert changes
-        assertEquals("Changed", testEvent.getTestName());
     }
 
     private EventManagement getEventManagement() throws NoSuchFieldException, IllegalAccessException {
