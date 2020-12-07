@@ -54,11 +54,7 @@ public class EventReflection {
             throw new EventHandlerNotFoundException("Handled method event parameter aren't a valid event.");
         }
 
-        try {
-            return parameter;
-        } catch (Exception er) {
-            throw new EventHandlerNotFoundException("Unexpected error", er);
-        }
+        return parameter;
     }
 
     /**
