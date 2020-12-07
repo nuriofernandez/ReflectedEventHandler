@@ -1,7 +1,10 @@
 package me.nurio.events;
 
-import me.nurio.events.testclasses.TestEvent;
-import me.nurio.events.testclasses.TestListener;
+import lombok.Getter;
+import lombok.Setter;
+import me.nurio.events.handler.Event;
+import me.nurio.events.handler.EventHandler;
+import me.nurio.events.handler.EventListener;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,6 +15,9 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * This class proves the behavior of the EventManager event registering and event calling.
+ */
 public class EventManagerTest {
 
     private EventManager eventManager;
@@ -36,7 +42,7 @@ public class EventManagerTest {
 
         // Assert data
         assertEquals(1, registeredListeners.size());
-        assertEquals("me.nurio.events.testclasses.TestListener#updateFieldName", eventListener.getName());
+        assertEquals("me.nurio.events.EventManagerTest.TestListener#updateFieldName", eventListener.getName());
     }
 
     @Test
@@ -57,6 +63,28 @@ public class EventManagerTest {
         Field field = eventManager.getClass().getDeclaredField("eventManagement");
         field.setAccessible(true);
         return (EventManagement) field.get(eventManager);
+    }
+
+    /**
+     * This event listener proves that invalid event handlers will be ignore and valid ones will be call.
+     */
+    private static class TestListener implements EventListener {
+        @EventHandler
+        public void updateFieldName(TestEvent event) {
+            event.setTestName("Changed");
+            // This should be included in the event method list.
+        }
+
+        public void nonEventMethod() {
+            // This should be excluded from the event method list because they don't have the @EventHandler annotation.
+        }
+    }
+
+    /**
+     * This event is used to prove that valid event handlers are called as expected.
+     */
+    private static class TestEvent extends Event {
+        @Getter @Setter private String testName;
     }
 
 }
