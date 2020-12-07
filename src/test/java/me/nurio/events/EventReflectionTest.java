@@ -1,8 +1,9 @@
 package me.nurio.events;
 
 import me.nurio.events.exceptions.EventHandlerNotFoundException;
-import me.nurio.events.testclasses.TestEvent;
-import me.nurio.events.testclasses.WrongTestListener;
+import me.nurio.events.handler.Event;
+import me.nurio.events.handler.EventHandler;
+import me.nurio.events.handler.EventListener;
 import org.junit.Test;
 
 import java.lang.reflect.Method;
@@ -11,6 +12,9 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
+/**
+ * This class will test the EventRefection behavior with valid and invalid event handlers.
+ */
 public class EventReflectionTest {
 
     @Test
@@ -69,5 +73,34 @@ public class EventReflectionTest {
         // This call should throw an EventHandlerNotFoundException
         EventReflection.getEventFromMethod(handledWrongMethod);
     }
+
+    /**
+     * This event listener will be used to prove the EventReflection behavior with invalid event handlers.
+     */
+    private static class WrongTestListener implements EventListener {
+        @EventHandler
+        public void wrongEventMethod() {
+            // This should be excluded from the event method list because they don't have a event type.
+        }
+
+        @EventHandler
+        public void wrongEventMethodType(String string) {
+            // This should be excluded from the event method list because they don't have a event type.
+        }
+
+        @EventHandler
+        public void fineEventMethod(TestEvent event) {
+            // This should be included in the event method list.
+        }
+
+        public void nonEventMethod() {
+            // This should be excluded from the event method list because they don't have @EventHandler annotation.
+        }
+    }
+
+    /**
+     * This testing event is used to create a valid event handler.
+     */
+    private static class TestEvent extends Event {}
 
 }
