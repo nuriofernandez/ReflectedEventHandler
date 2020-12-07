@@ -30,10 +30,10 @@ public class EventManagerTest {
         eventManager.registerEvents(new TestListener());
 
         // Obtain method listeners
-        Method method = eventManagement.getClass().getDeclaredMethod("getEventListenersFor", Class.class);
+        Method method = eventManagement.getClass().getDeclaredMethod("getEventHandlerFor", Class.class);
         method.setAccessible(true);
-        List<RegisteredEventListener> registeredListeners = (List<RegisteredEventListener>) method.invoke(eventManagement, TestEvent.class);
-        RegisteredEventListener eventListener = registeredListeners.get(0);
+        List<RegisteredEventHandler> registeredListeners = (List<RegisteredEventHandler>) method.invoke(eventManagement, TestEvent.class);
+        RegisteredEventHandler eventListener = registeredListeners.get(0);
 
         // Assert data
         assertEquals(1, registeredListeners.size());
@@ -60,7 +60,7 @@ public class EventManagerTest {
         eventManager.registerEvents(new PriorityTestListener());
 
         // Get events from Listeners
-        List<RegisteredEventListener> list = eventManagement.getEventListenersFor(TestEvent.class);
+        List<RegisteredEventHandler> list = eventManagement.getEventHandlerFor(TestEvent.class);
 
         // Assert order
         assertEquals("me.nurio.events.testclasses.PriorityTestListener#monitorEvent", list.get(0).getName());
