@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import me.nurio.events.handler.Event;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * This class manages internally event registry.
@@ -18,26 +17,26 @@ class EventManagement {
     /**
      * Registered events mapped as 'EventClass' as key and list of 'RegisteredEventHandlers' for that event.
      */
-    private Map<Class<?>, List<RegisteredEventListener>> eventMap = new HashMap<>();
+    private Map<Class<?>, List<RegisteredEventHandler>> eventMap = new HashMap<>();
 
     /**
      * Register event handler to the event manager.
      *
-     * @param registeredEvent RegisteredEvent instance of the event to register.
+     * @param eventHandler RegisteredEventHandler instance of the event to register.
      */
-    protected void registerEvent(RegisteredEventListener registeredEvent) {
+    protected void registerEvent(RegisteredEventHandler eventHandler) {
         // Prevent null pointers.
-        eventMap.putIfAbsent(registeredEvent.getEvent(), new ArrayList<>());
+        eventMap.putIfAbsent(eventHandler.getEvent(), new ArrayList<>());
 
         // Obtain already registered listeners and add the new one.
-        List<RegisteredEventListener> registeredEventListeners = getEventListenersFor(registeredEvent.getEvent());
-        registeredEventListeners.add(registeredEvent);
+        List<RegisteredEventHandler> registeredEventHandlers = getEventHandlerFor(eventHandler.getEvent());
+        registeredEventHandlers.add(eventHandler);
 
         // Sort event' registered listeners by their assigned priority.
-        registeredEventListeners.sort(Comparator.comparing(RegisteredEventListener::getPriority));
+        registeredEventHandlers.sort(Comparator.comparing(RegisteredEventHandler::getPriority));
 
         // Debug event listener registration.
-        if (eventManager.isDebugLoggingEnabled()) System.out.println("[EventManager] The event handler '" + registeredEvent.getName() + "' was successful registered.");
+        if (eventManager.isDebugLoggingEnabled()) System.out.println("[EventManager] The event handler '" + eventHandler.getName() + "' was successful registered.");
     }
 
     /**
@@ -48,8 +47,8 @@ class EventManagement {
      * @param event Handled event class type.
      * @return List of Registered events sorted by his EventPriority.
      */
-    protected List<RegisteredEventListener> getEventListenersFor(Event event) {
-        return getEventListenersFor(event.getClass());
+    protected List<RegisteredEventHandler> getEventHandlerFor(Event event) {
+        return getEventHandlerFor(event.getClass());
     }
 
     /**
@@ -60,7 +59,7 @@ class EventManagement {
      * @param event Handled event class type.
      * @return List of Registered events sorted by his EventPriority.
      */
-    protected List<RegisteredEventListener> getEventListenersFor(Class<?> event) {
+    protected List<RegisteredEventHandler> getEventHandlerFor(Class<?> event) {
         return eventMap.getOrDefault(event, new ArrayList<>());
     }
 

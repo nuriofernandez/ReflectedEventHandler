@@ -9,9 +9,9 @@ import me.nurio.events.handler.EventPriority;
 import java.lang.reflect.Method;
 
 /**
- * This class will map Registered Event Listener for using it as an object.
+ * This class maps an @EventHandler method registered in an EventManager.
  */
-public class RegisteredEventListener {
+public class RegisteredEventHandler {
 
     private final EventManager eventManager;
     private EventListener listener;
@@ -24,7 +24,7 @@ public class RegisteredEventListener {
     @Getter private boolean ignoreCancelled;
     @Getter private String name;
 
-    public RegisteredEventListener(EventManager eventManager, EventListener listener, Method method) {
+    public RegisteredEventHandler(EventManager eventManager, EventListener listener, Method method) {
         this.eventManager = eventManager;
         this.listener = listener;
         this.method = method;
@@ -43,9 +43,9 @@ public class RegisteredEventListener {
     public void invoke(Event event) {
         try {
             method.invoke(listener, event);
-            if (eventManager.isDebugLoggingEnabled()) System.out.println("[EventManager] Launching '" + name + "' event.");
+            if (eventManager.isDebugLoggingEnabled()) System.out.println("[EventManager] Launching '" + name + "' event handler.");
         } catch (Exception e) {
-            System.err.println("[EventManager] Error launching '" + name + "' event.");
+            System.err.println("[EventManager] Error launching '" + name + "' event handler.");
             e.printStackTrace();
         }
     }

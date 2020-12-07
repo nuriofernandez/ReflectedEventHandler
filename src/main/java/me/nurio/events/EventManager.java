@@ -7,6 +7,7 @@ import me.nurio.events.handler.EventListener;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This class manages the final developer event control.
@@ -27,8 +28,16 @@ public class EventManager {
      * @param <L>      Event listener class type to register.
      */
     public <L extends EventListener> void registerEvents(L listener) {
-        List<Method> eventListeners = EventReflection.getHandledMethodsFrom(listener.getClass());
-        eventListeners.forEach(method -> eventManagement.registerEvent(new RegisteredEventListener(this, listener, method)));
+        // Obtain event handler methods of the provided EventListener.
+        List<Method> eventHandlerMethods = EventReflection.getHandledMethodsFrom(listener.getClass());
+
+        // Map event handler methods to a RegisterEventHandler instance.
+        List<RegisteredEventHandler> eventHandlers = eventHandlerMethods.stream()
+            .map(method -> new RegisteredEventHandler(this, listener, method))
+            .collect(Collectors.toList());
+
+        // Register each event handler of the provided EventListener.
+        eventHandlers.forEach(eventManagement::registerEvent);
     }
 
     /**
@@ -38,12 +47,12 @@ public class EventManager {
      * @param <E>   Event class type to call.
      */
     public <E extends Event> void callEvent(E event) {
-        for (RegisteredEventListener listener : eventManagement.getEventListenersFor(event)) {
-            // Skips cancelled events that are not ignoring that cancellation.
-            if (event.isCancelled() && (!event.isCancelled() || !listener.isIgnoreCancelled())) continue;
+        for (RegisteredEventHandler eventHandler : eventManagement.getEventHandlerFor(event)) {
+            // Skip event handling execution for these events that were canceled and are not flagged to 'ignore event cancellation'.
+            if (event.isCancelled() && !eventHandler.isIgnoreCancelled()) continue;
 
-            // Invoke que event handler method.
-            listener.invoke(event);
+            // Invoke the event handler method.
+            eventHandler.invoke(event);
         }
     }
 
