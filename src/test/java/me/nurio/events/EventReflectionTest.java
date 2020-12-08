@@ -52,7 +52,7 @@ public class EventReflectionTest {
     @Test
     public void getEventFromMethod_shouldReturnEventClassFromMethod_whenProvidedMethodWasWellFormed() throws NoSuchMethodException {
         Method handledFineMethod = WrongTestListener.class.getMethod("fineEventMethod", TestEvent.class);
-        Class<?> eventClass = EventReflection.getEventFromMethod(handledFineMethod);
+        Class<? extends Event> eventClass = EventReflection.getEventFromMethod(handledFineMethod);
 
         // Assert equals
         assertEquals(TestEvent.class, eventClass);
