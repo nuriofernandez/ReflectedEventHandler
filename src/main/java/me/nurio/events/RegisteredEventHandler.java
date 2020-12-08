@@ -17,7 +17,7 @@ public class RegisteredEventHandler {
     private Method method;
 
     @Getter(AccessLevel.PACKAGE)
-    private Class<?> event;
+    private Class<? extends Event> event;
 
     @Getter private EventListener listener;
 

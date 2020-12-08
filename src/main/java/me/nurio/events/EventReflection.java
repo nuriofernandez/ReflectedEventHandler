@@ -43,7 +43,7 @@ public class EventReflection {
      * @param method Reflected method to find event class.
      * @return reflected event class from specified method.
      */
-    public static Class<?> getEventFromMethod(Method method) {
+    public static Class<? extends Event> getEventFromMethod(Method method) {
         if (method.getParameterCount() != 1) {
             throw new EventHandlerNotFoundException("Handled method doesn't have a event parameter or have more than one.");
         }
@@ -54,7 +54,7 @@ public class EventReflection {
             throw new EventHandlerNotFoundException("Handled method event parameter aren't a valid event.");
         }
 
-        return parameter;
+        return (Class<? extends Event>) parameter;
     }
 
     /**
