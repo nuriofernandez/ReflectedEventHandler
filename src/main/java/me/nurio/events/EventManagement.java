@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import me.nurio.events.handler.Event;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class manages internally event registry.
@@ -18,6 +19,17 @@ class EventManagement {
      * Registered events mapped as 'EventClass' as key and list of 'RegisteredEventHandlers' for that event.
      */
     private Map<Class<?>, List<RegisteredEventHandler>> eventMap = new HashMap<>();
+
+    /**
+     * Lists all registered event handlers.
+     *
+     * @return List of registered event handlers.
+     */
+    protected List<RegisteredEventHandler> getRegisteredEvents() {
+        return eventMap.values().stream()
+            .flatMap(Collection::stream)
+            .collect(Collectors.toList());
+    }
 
     /**
      * Register event handler to the event manager.

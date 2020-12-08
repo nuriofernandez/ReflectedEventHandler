@@ -14,11 +14,12 @@ import java.lang.reflect.Method;
 public class RegisteredEventHandler {
 
     private final EventManager eventManager;
-    private EventListener listener;
     private Method method;
 
     @Getter(AccessLevel.PACKAGE)
     private Class<?> event;
+
+    @Getter private EventListener listener;
 
     @Getter private EventPriority priority;
     @Getter private boolean ignoreCancelled;
