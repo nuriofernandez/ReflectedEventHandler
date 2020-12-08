@@ -22,6 +22,18 @@ public class EventManager {
     @Setter @Getter private boolean debugLoggingEnabled;
 
     /**
+     * Lists registered event listeners.
+     *
+     * @return List of registered event listeners instances.
+     */
+    public List<EventListener> getRegisteredListeners() {
+        return eventManagement.getRegisteredEvents().stream()
+            .map(RegisteredEventHandler::getListener)
+            .distinct()
+            .collect(Collectors.toList());
+    }
+
+    /**
      * Register event listener at the EventManager to fire its event when some handled event went called.
      *
      * @param listener EventListener event class instance.
