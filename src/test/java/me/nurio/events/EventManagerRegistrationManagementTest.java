@@ -35,9 +35,7 @@ public class EventManagerRegistrationManagementTest {
         eventManager.registerEvents(new TestListener());
 
         // Obtain method listeners
-        Method method = eventManagement.getClass().getDeclaredMethod("getEventHandlerFor", Class.class);
-        method.setAccessible(true);
-        List<RegisteredEventHandler> registeredListeners = (List<RegisteredEventHandler>) method.invoke(eventManagement, TestEvent.class);
+        List<RegisteredEventHandler> registeredListeners = eventManagement.getEventHandlerFor(TestEvent.class);
         RegisteredEventHandler eventListener = registeredListeners.get(0);
 
         // Assert data
@@ -54,9 +52,7 @@ public class EventManagerRegistrationManagementTest {
         eventManager.registerEvents(testListener);
 
         // Obtain method listeners
-        Method method = eventManagement.getClass().getDeclaredMethod("getEventHandlerFor", Class.class);
-        method.setAccessible(true);
-        List<RegisteredEventHandler> registeredListeners = (List<RegisteredEventHandler>) method.invoke(eventManagement, TestEvent.class);
+        List<RegisteredEventHandler> registeredListeners = eventManagement.getEventHandlerFor(TestEvent.class);
         RegisteredEventHandler eventListener = registeredListeners.get(0);
 
         // Assert registered data
@@ -65,6 +61,8 @@ public class EventManagerRegistrationManagementTest {
 
         // Unregister and assert unregistered data
         eventManager.unregisterEvents(testListener);
+
+        registeredListeners = eventManagement.getEventHandlerFor(TestEvent.class);
         assertEquals(0, registeredListeners.size());
     }
 
