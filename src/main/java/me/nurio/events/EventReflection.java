@@ -49,8 +49,7 @@ public class EventReflection {
         }
 
         Class<?> parameter = method.getParameterTypes()[0];
-        Class<?> superClass = parameter.getSuperclass();
-        if (!superClass.equals(Event.class)) {
+        if (Event.class.isInstance(parameter.getSuperclass())) {
             throw new EventHandlerNotFoundException("Handled method event parameter aren't a valid event.");
         }
 
