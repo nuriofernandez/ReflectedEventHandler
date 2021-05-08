@@ -1,8 +1,7 @@
-package me.cerratolabs.events;
+package me.nurio.events;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.nurio.events.EventManager;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
@@ -50,7 +49,7 @@ public class ClassInferenceForCustomAbstractEventClassesTest {
 
     /* Testing case dependencies has parent event class */
 
-    private static class ParentEvent extends Event { }
+    private static class ParentEvent extends Event {}
 
     private static class ChildEvent extends ParentEvent {
         @Getter
