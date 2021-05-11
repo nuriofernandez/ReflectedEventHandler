@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.nurio</groupId>
     <artifactId>events</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.5-SNAPSHOT</version>
     <name>JR-EventSystem</name>
     <description>Java Reflection Event System</description>
 
