@@ -1,4 +1,4 @@
-package me.nurio.events;
+package me.nurio.events.internal;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 class EventManagement {
 
-    @NonNull private final EventManager eventManager;
+    @NonNull private final ReflectedEventManager eventManager;
 
     /**
      * Registered events mapped as 'EventClass' as key and list of 'RegisteredEventHandlers' for that event.

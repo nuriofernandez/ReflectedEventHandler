@@ -1,7 +1,8 @@
-package me.nurio.events;
+package me.nurio.events.internal;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.nurio.events.EventManager;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventListener;
 
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * This class manages the final developer event control.
  */
-public class EventManager {
+public class ReflectedEventManager implements EventManager {
 
     private final EventManagement eventManagement = new EventManagement(this);
 
@@ -41,7 +42,7 @@ public class EventManager {
      */
     public <L extends EventListener> void registerEvents(L listener) {
         // Obtain event handler methods of the provided EventListener.
-        List<Method> eventHandlerMethods = EventReflection.getHandledMethodsFrom(listener.getClass());
+        List<Method> eventHandlerMethods = EventReflectionUtils.getHandledMethodsFrom(listener.getClass());
 
         // Map event handler methods to a RegisterEventHandler instance.
         List<RegisteredEventHandler> eventHandlers = eventHandlerMethods.stream()

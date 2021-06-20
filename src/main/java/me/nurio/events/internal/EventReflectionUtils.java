@@ -1,4 +1,4 @@
-package me.nurio.events;
+package me.nurio.events.internal;
 
 import me.nurio.events.exceptions.EventHandlerNotFoundException;
 import me.nurio.events.handler.Event;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * This class manages internally event's reflection operations.
  */
-public class EventReflection {
+public class EventReflectionUtils {
 
     /**
      * Check if specified method its an Event handler.
@@ -33,7 +33,7 @@ public class EventReflection {
      */
     public static List<Method> getHandledMethodsFrom(Class<?> classListener) {
         return Arrays.stream(classListener.getMethods())
-            .filter(EventReflection::isHandledMethod)
+            .filter(EventReflectionUtils::isHandledMethod)
             .collect(Collectors.toList());
     }
 

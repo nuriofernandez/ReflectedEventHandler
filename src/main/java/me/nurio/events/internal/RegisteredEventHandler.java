@@ -1,4 +1,4 @@
-package me.nurio.events;
+package me.nurio.events.internal;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
  */
 public class RegisteredEventHandler {
 
-    private final EventManager eventManager;
+    private final ReflectedEventManager eventManager;
     private Method method;
 
     @Getter(AccessLevel.PACKAGE)
@@ -25,15 +25,15 @@ public class RegisteredEventHandler {
     @Getter private boolean ignoreCancelled;
     @Getter private String name;
 
-    public RegisteredEventHandler(EventManager eventManager, EventListener listener, Method method) {
+    public RegisteredEventHandler(ReflectedEventManager eventManager, EventListener listener, Method method) {
         this.eventManager = eventManager;
         this.listener = listener;
         this.method = method;
 
         name = method.getDeclaringClass().getCanonicalName() + "#" + method.getName();
-        event = EventReflection.getEventFromMethod(method);
-        priority = EventReflection.getEventPriorityFromMethod(method);
-        ignoreCancelled = EventReflection.getIgnoreCancelledFromMethod(method);
+        event = EventReflectionUtils.getEventFromMethod(method);
+        priority = EventReflectionUtils.getEventPriorityFromMethod(method);
+        ignoreCancelled = EventReflectionUtils.getIgnoreCancelledFromMethod(method);
     }
 
     /**
