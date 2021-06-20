@@ -1,5 +1,6 @@
-package me.nurio.events;
+package me.nurio.events.internal;
 
+import me.nurio.events.EventManager;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
@@ -20,7 +21,7 @@ public class EventManagerRegisteredListenersListingTest {
 
     @Before
     public void registerEventManager() throws NoSuchFieldException, IllegalAccessException {
-        eventManager = new EventManager();
+        eventManager = new ReflectedEventManager();
         eventManagement = getEventManagement();
     }
 

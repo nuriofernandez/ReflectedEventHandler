@@ -5,6 +5,7 @@ import lombok.Setter;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
+import me.nurio.events.internal.ReflectedEventManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,7 +22,7 @@ public class ClassInferenceForCustomAbstractEventClassesTest {
 
     @Before
     public void registerEventManager() {
-        eventManager = new EventManager();
+        eventManager = new ReflectedEventManager();
     }
 
     @Test
@@ -49,9 +50,9 @@ public class ClassInferenceForCustomAbstractEventClassesTest {
 
     /* Testing case dependencies has parent event class */
 
-    private static class ParentEvent extends Event {}
+    public static class ParentEvent extends Event {}
 
-    private static class ChildEvent extends ParentEvent {
+    public static class ChildEvent extends ParentEvent {
         @Getter
         @Setter
         private String message;

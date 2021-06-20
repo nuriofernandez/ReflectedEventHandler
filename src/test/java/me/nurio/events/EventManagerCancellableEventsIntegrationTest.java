@@ -7,6 +7,7 @@ import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventCancellable;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
+import me.nurio.events.internal.ReflectedEventManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +23,7 @@ public class EventManagerCancellableEventsIntegrationTest {
 
     @Before
     public void registerEventManager() {
-        eventManager = new EventManager();
+        eventManager = new ReflectedEventManager();
         eventManager.registerEvents(new EventCancellationListener());
     }
 
@@ -43,7 +44,7 @@ public class EventManagerCancellableEventsIntegrationTest {
     /**
      * This class will cancel events flagged to be canceled.
      */
-    private static class EventCancellationListener implements EventListener {
+    public static class EventCancellationListener implements EventListener {
         @EventHandler
         public void cancellableEvent(CancellableEvent event) {
             event.setCancelled(event.isToBeCancelled());
@@ -54,7 +55,7 @@ public class EventManagerCancellableEventsIntegrationTest {
      * This event will be used to test event cancellation.
      */
     @RequiredArgsConstructor
-    private static class CancellableEvent extends Event implements EventCancellable {
+    public static class CancellableEvent extends Event implements EventCancellable {
         @Getter @Setter private final boolean toBeCancelled;
         @Getter @Setter private boolean cancelled;
     }

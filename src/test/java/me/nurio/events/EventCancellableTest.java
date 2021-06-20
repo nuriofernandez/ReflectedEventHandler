@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import me.nurio.events.handler.*;
+import me.nurio.events.internal.ReflectedEventManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +20,7 @@ public class EventCancellableTest {
 
     @Before
     public void registerEvent() {
-        eventManager = new EventManager();
+        eventManager = new ReflectedEventManager();
         eventManager.registerEvents(new IgnoredCancelledEventTestListener());
     }
 
@@ -37,7 +38,7 @@ public class EventCancellableTest {
     /**
      * This event listener will be used to test that non 'ignoreCancelled' flagged event handlers were skipped.
      */
-    private static class IgnoredCancelledEventTestListener implements EventListener {
+    public static class IgnoredCancelledEventTestListener implements EventListener {
         @EventHandler(priority = EventPriority.MONITOR)
         public void eventCanceller(CancellableEvent eve) {
             eve.setName("Cancelled");
@@ -60,7 +61,7 @@ public class EventCancellableTest {
      */
     @Data
     @RequiredArgsConstructor
-    private static class CancellableEvent extends Event implements EventCancellable {
+    public static class CancellableEvent extends Event implements EventCancellable {
         private boolean cancelled;
         @NonNull private String name;
     }

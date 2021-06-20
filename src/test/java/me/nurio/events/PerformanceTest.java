@@ -3,6 +3,7 @@ package me.nurio.events;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
+import me.nurio.events.internal.ReflectedEventManager;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -12,7 +13,7 @@ import org.junit.Test;
 @Ignore
 public class PerformanceTest {
 
-    private EventManager eventManager = new EventManager();
+    private EventManager eventManager = new ReflectedEventManager();
     private static final int LOOPS = 100_000_000;
 
     @Test
@@ -33,7 +34,7 @@ public class PerformanceTest {
     /**
      * This event listener will be used to benchmark the event calling process.
      */
-    private static class TestListener implements EventListener {
+    public static class TestListener implements EventListener {
         @EventHandler
         public void doSomething(TestEvent event) {
             // Nothing at all
@@ -43,6 +44,6 @@ public class PerformanceTest {
     /**
      * This event will be used to call the testing event handler.
      */
-    private static class TestEvent extends Event {}
+    public static class TestEvent extends Event {}
 
 }

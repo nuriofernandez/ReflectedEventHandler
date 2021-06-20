@@ -4,10 +4,11 @@ import lombok.Getter;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
+import me.nurio.events.internal.ReflectedEventManager;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * This class will prove that EventManager#callEvent calls all matching event handlers.
@@ -18,7 +19,7 @@ public class EventManagerEventCallingIntegrationTest {
 
     @Before
     public void registerEventManager() {
-        eventManager = new EventManager();
+        eventManager = new ReflectedEventManager();
         eventManager.registerEvents(new EventModificationCounterListener());
         eventManager.registerEvents(new EventModificationCounterTwoListener());
     }
@@ -33,7 +34,7 @@ public class EventManagerEventCallingIntegrationTest {
     /**
      * This class will cancel events flagged to be canceled.
      */
-    private static class EventModificationCounterListener implements EventListener {
+    public static class EventModificationCounterListener implements EventListener {
         @EventHandler
         public void one(ModificationCounterEvent event) {
             event.increment();
@@ -48,7 +49,7 @@ public class EventManagerEventCallingIntegrationTest {
     /**
      * This class will cancel events flagged to be canceled.
      */
-    private static class EventModificationCounterTwoListener implements EventListener {
+    public static class EventModificationCounterTwoListener implements EventListener {
         @EventHandler
         public void three(ModificationCounterEvent event) {
             event.increment();
@@ -58,7 +59,7 @@ public class EventManagerEventCallingIntegrationTest {
     /**
      * This event will be used to test event cancellation.
      */
-    private static class ModificationCounterEvent extends Event {
+    public static class ModificationCounterEvent extends Event {
         @Getter private int times;
 
         public void increment() {

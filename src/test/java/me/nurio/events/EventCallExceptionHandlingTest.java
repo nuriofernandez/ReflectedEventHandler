@@ -5,6 +5,7 @@ import lombok.Setter;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
+import me.nurio.events.internal.ReflectedEventManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +20,7 @@ public class EventCallExceptionHandlingTest {
 
     @Before
     public void registerEventManager() {
-        eventManager = new EventManager();
+        eventManager = new ReflectedEventManager();
     }
 
     @Test
@@ -39,7 +40,7 @@ public class EventCallExceptionHandlingTest {
     /**
      * This event listener will be used to prove that in case any other event handler throws an exception this will be executed anyway.
      */
-    private static class TestListener implements EventListener {
+    public static class TestListener implements EventListener {
         @EventHandler
         public void updateFieldName(TestEvent event) {
             event.setTestName("Changed");
@@ -49,7 +50,7 @@ public class EventCallExceptionHandlingTest {
     /**
      * This event listener will be used to prove the behavior or an event handler that throws an exception.
      */
-    private static class TestThatThrowsExceptionsListener implements EventListener {
+    public static class TestThatThrowsExceptionsListener implements EventListener {
         @EventHandler
         public void exceptionThrower(TestEvent event) {
             throw new RuntimeException("Testing what happens when something goes wrong!");
@@ -59,7 +60,7 @@ public class EventCallExceptionHandlingTest {
     /**
      * This event will be used to test the exception throwing behavior.
      */
-    private static class TestEvent extends Event {
+    public static class TestEvent extends Event {
         @Getter @Setter private String testName;
     }
 

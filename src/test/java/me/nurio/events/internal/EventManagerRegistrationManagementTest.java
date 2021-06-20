@@ -1,7 +1,8 @@
-package me.nurio.events;
+package me.nurio.events.internal;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.nurio.events.EventManager;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
@@ -10,7 +11,6 @@ import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -25,7 +25,7 @@ public class EventManagerRegistrationManagementTest {
 
     @Before
     public void registerEventManager() throws NoSuchFieldException, IllegalAccessException {
-        eventManager = new EventManager();
+        eventManager = new ReflectedEventManager();
         eventManagement = getEventManagement();
     }
 
@@ -40,7 +40,7 @@ public class EventManagerRegistrationManagementTest {
 
         // Assert data
         assertEquals(1, registeredListeners.size());
-        assertEquals("me.nurio.events.EventManagerRegistrationManagementTest.TestListener#updateFieldName", eventListener.getName());
+        assertEquals("me.nurio.events.internal.EventManagerRegistrationManagementTest.TestListener#updateFieldName", eventListener.getName());
     }
 
     @Test
@@ -57,7 +57,7 @@ public class EventManagerRegistrationManagementTest {
 
         // Assert registered data
         assertEquals(1, registeredListeners.size());
-        assertEquals("me.nurio.events.EventManagerRegistrationManagementTest.TestListener#updateFieldName", eventListener.getName());
+        assertEquals("me.nurio.events.internal.EventManagerRegistrationManagementTest.TestListener#updateFieldName", eventListener.getName());
 
         // Unregister and assert unregistered data
         eventManager.unregisterEvents(testListener);
@@ -75,7 +75,7 @@ public class EventManagerRegistrationManagementTest {
     /**
      * This event listener proves that invalid event handlers will be ignore and valid ones will be call.
      */
-    private static class TestListener implements EventListener {
+    public static class TestListener implements EventListener {
         @EventHandler
         public void updateFieldName(TestEvent event) {
             event.setTestName("Changed");
@@ -90,7 +90,7 @@ public class EventManagerRegistrationManagementTest {
     /**
      * This event is used to prove that valid event handlers are called as expected.
      */
-    private static class TestEvent extends Event {
+    public static class TestEvent extends Event {
         @Getter @Setter private String testName;
     }
 

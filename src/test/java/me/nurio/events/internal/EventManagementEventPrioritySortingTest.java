@@ -1,5 +1,6 @@
-package me.nurio.events;
+package me.nurio.events.internal;
 
+import me.nurio.events.EventManager;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
@@ -22,7 +23,7 @@ public class EventManagementEventPrioritySortingTest {
 
     @Before
     public void registerEventManager() throws NoSuchFieldException, IllegalAccessException {
-        eventManager = new EventManager();
+        eventManager = new ReflectedEventManager();
         eventManagement = getEventManagement();
     }
 
@@ -35,17 +36,17 @@ public class EventManagementEventPrioritySortingTest {
         List<RegisteredEventHandler> list = eventManagement.getEventHandlerFor(TestEvent.class);
 
         // Assert order
-        assertEquals("me.nurio.events.EventManagementEventPrioritySortingTest.PriorityTestListener#monitorEvent", list.get(0).getName());
+        assertEquals("me.nurio.events.internal.EventManagementEventPrioritySortingTest.PriorityTestListener#monitorEvent", list.get(0).getName());
 
         // Substring name cause doesn't matters if #nonTagEvent, #nonTagEventTwo or #nonTagEventTree are fired in different order.
-        String expectedCanonicalName = "me.nurio.events.EventManagementEventPrioritySortingTest.PriorityTestListener#nonTagEvent";
+        String expectedCanonicalName = "me.nurio.events.internal.EventManagementEventPrioritySortingTest.PriorityTestListener#nonTagEvent";
 
-        assertEquals(expectedCanonicalName, list.get(1).getName().substring(0, 88));
-        assertEquals(expectedCanonicalName, list.get(2).getName().substring(0, 88));
-        assertEquals(expectedCanonicalName, list.get(3).getName().substring(0, 88));
+        assertEquals(expectedCanonicalName, list.get(1).getName().substring(0, 97));
+        assertEquals(expectedCanonicalName, list.get(2).getName().substring(0, 97));
+        assertEquals(expectedCanonicalName, list.get(3).getName().substring(0, 97));
 
-        assertEquals("me.nurio.events.EventManagementEventPrioritySortingTest.PriorityTestListener#lowEvent", list.get(4).getName());
-        assertEquals("me.nurio.events.EventManagementEventPrioritySortingTest.PriorityTestListener#lowestEvent", list.get(5).getName());
+        assertEquals("me.nurio.events.internal.EventManagementEventPrioritySortingTest.PriorityTestListener#lowEvent", list.get(4).getName());
+        assertEquals("me.nurio.events.internal.EventManagementEventPrioritySortingTest.PriorityTestListener#lowestEvent", list.get(5).getName());
     }
 
     private EventManagement getEventManagement() throws NoSuchFieldException, IllegalAccessException {
@@ -57,7 +58,7 @@ public class EventManagementEventPrioritySortingTest {
     /**
      * This event listener will be used to test the sorting of different events by his priority.
      */
-    private static class PriorityTestListener implements EventListener {
+    public static class PriorityTestListener implements EventListener {
         @EventHandler
         public void nonTagEvent(TestEvent eve) {}
 
@@ -80,6 +81,6 @@ public class EventManagementEventPrioritySortingTest {
     /**
      * This testing event is used to create different prioritized event handlers.
      */
-    private static class TestEvent extends Event {}
+    public static class TestEvent extends Event {}
 
 }

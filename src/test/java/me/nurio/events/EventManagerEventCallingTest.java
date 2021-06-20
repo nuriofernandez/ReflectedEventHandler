@@ -5,10 +5,9 @@ import lombok.Setter;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
+import me.nurio.events.internal.ReflectedEventManager;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.lang.reflect.Field;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,12 +17,10 @@ import static org.junit.Assert.assertEquals;
 public class EventManagerEventCallingTest {
 
     private EventManager eventManager;
-    private EventManagement eventManagement;
 
     @Before
     public void registerEventManager() throws NoSuchFieldException, IllegalAccessException {
-        eventManager = new EventManager();
-        eventManagement = getEventManagement();
+        eventManager = new ReflectedEventManager();
     }
 
     @Test
@@ -40,16 +37,10 @@ public class EventManagerEventCallingTest {
         assertEquals("Changed", testEvent.getTestName());
     }
 
-    private EventManagement getEventManagement() throws NoSuchFieldException, IllegalAccessException {
-        Field field = eventManager.getClass().getDeclaredField("eventManagement");
-        field.setAccessible(true);
-        return (EventManagement) field.get(eventManager);
-    }
-
     /**
      * This event listener proves that event handled methods will be called.
      */
-    private static class TestListener implements EventListener {
+    public static class TestListener implements EventListener {
         @EventHandler
         public void updateFieldName(TestEvent event) {
             event.setTestName("Changed");
@@ -60,7 +51,7 @@ public class EventManagerEventCallingTest {
     /**
      * This event is used to prove that event handler methods are called as expected.
      */
-    private static class TestEvent extends Event {
+    public static class TestEvent extends Event {
         @Getter @Setter private String testName;
     }
 
