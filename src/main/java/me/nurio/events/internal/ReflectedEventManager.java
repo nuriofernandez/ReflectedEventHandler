@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.nurio.events.EventManager;
 import me.nurio.events.handler.Event;
+import me.nurio.events.handler.EventDispatchEvent;
 import me.nurio.events.handler.EventListener;
 
 import java.lang.reflect.Method;
@@ -76,6 +77,17 @@ public class ReflectedEventManager implements EventManager {
      * @param <E>   Event class type to call.
      */
     public <E extends Event> void callEvent(E event) {
+        EventDispatchEvent dispatchEvent = new EventDispatchEvent(event);
+        for (RegisteredEventHandler eventHandler : eventManagement.getEventHandlerFor(EventDispatchEvent.class)) {
+            eventHandler.invoke(dispatchEvent);
+        }
+
+        if (dispatchEvent.isCancelled()) {
+            // This will cancel the event dispatch. Meaning the event
+            // cancellation system will be ignored cause the event has never launched.
+            return;
+        }
+
         for (RegisteredEventHandler eventHandler : eventManagement.getEventHandlerFor(event)) {
             // Skip event handling execution for these events that were canceled and are not flagged to 'ignore event cancellation'.
             if (event.isCancelled() && !eventHandler.isIgnoreCancelled()) continue;
