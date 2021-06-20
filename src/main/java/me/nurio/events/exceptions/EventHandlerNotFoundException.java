@@ -1,11 +1,11 @@
 package me.nurio.events.exceptions;
 
-import me.nurio.events.EventReflection;
+import me.nurio.events.internal.EventReflectionUtils;
 
 /**
  * This exception will be throw when something went wrong with an event handler.
  *
- * @see EventReflection#getEventFromMethod
+ * @see EventReflectionUtils#getEventFromMethod
  */
 public class EventHandlerNotFoundException extends RuntimeException {
 
