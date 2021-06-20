@@ -77,6 +77,8 @@ public class ReflectedEventManager implements EventManager {
      * @param <E>   Event class type to call.
      */
     public <E extends Event> void callEvent(E event) {
+        // Calling the EventDispatchEvent to allow a generic event handling.
+        // This event could cause a slight loss of performance with large scale systems.
         EventDispatchEvent dispatchEvent = new EventDispatchEvent(event);
         for (RegisteredEventHandler eventHandler : eventManagement.getEventHandlerFor(EventDispatchEvent.class)) {
             eventHandler.invoke(dispatchEvent);
