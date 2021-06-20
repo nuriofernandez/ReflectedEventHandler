@@ -27,8 +27,9 @@ public class PerformanceTest {
         long end = System.currentTimeMillis();
 
         long diff = end - start;
+        long eventsPerSecond = (long) (LOOPS / (diff / 1000D));
         System.out.printf("Total execution time: %dms%n", diff);
-        System.out.printf("Per second times: %d%n", LOOPS / (diff / 1000));
+        System.out.printf("Events per second: %d%n", eventsPerSecond);
     }
 
     /**
