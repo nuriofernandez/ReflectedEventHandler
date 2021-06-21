@@ -6,8 +6,10 @@ import me.nurio.events.EventManager;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventDispatchEvent;
 import me.nurio.events.handler.EventListener;
+import me.nurio.events.internal.annotations.EventAnnotationHandlersManager;
+import me.nurio.events.internal.annotations.EventHandlerAnnotationEventHandler;
+import me.nurio.events.internal.annotations.HandledMethod;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +19,10 @@ import java.util.stream.Collectors;
 public class ReflectedEventManager implements EventManager {
 
     private final EventManagement eventManagement = new EventManagement(this);
+
+    private final EventAnnotationHandlersManager handlersManager = new EventAnnotationHandlersManager() {{
+        addAnnotationHandler(new EventHandlerAnnotationEventHandler());
+    }};
 
     /**
      * Disables or enables output debug messages from the event system.
@@ -43,11 +49,11 @@ public class ReflectedEventManager implements EventManager {
      */
     public <L extends EventListener> void registerEvents(L listener) {
         // Obtain event handler methods of the provided EventListener.
-        List<Method> eventHandlerMethods = EventReflectionUtils.getHandledMethodsFrom(listener.getClass());
+        List<HandledMethod> eventHandlerMethods = handlersManager.getHandledMethodsFrom(listener.getClass());
 
         // Map event handler methods to a RegisterEventHandler instance.
         List<RegisteredEventHandler> eventHandlers = eventHandlerMethods.stream()
-            .map(method -> new RegisteredEventHandler(this, listener, method))
+            .map(method -> new RegisteredEventHandler(listener, method))
             .collect(Collectors.toList());
 
         // Register each event handler of the provided EventListener.

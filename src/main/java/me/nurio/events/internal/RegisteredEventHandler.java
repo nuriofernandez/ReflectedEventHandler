@@ -5,6 +5,8 @@ import lombok.Getter;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventListener;
 import me.nurio.events.handler.EventPriority;
+import me.nurio.events.internal.annotations.AnnotationEventHandler;
+import me.nurio.events.internal.annotations.HandledMethod;
 
 import java.lang.reflect.Method;
 
@@ -13,8 +15,8 @@ import java.lang.reflect.Method;
  */
 public class RegisteredEventHandler {
 
-    private final ReflectedEventManager eventManager;
     private Method method;
+    private AnnotationEventHandler handler;
 
     @Getter(AccessLevel.PACKAGE)
     private Class<? extends Event> event;
@@ -25,15 +27,16 @@ public class RegisteredEventHandler {
     @Getter private boolean ignoreCancelled;
     @Getter private String name;
 
-    public RegisteredEventHandler(ReflectedEventManager eventManager, EventListener listener, Method method) {
-        this.eventManager = eventManager;
+    public RegisteredEventHandler(EventListener listener, HandledMethod handledMethod) {
         this.listener = listener;
-        this.method = method;
+
+        method = handledMethod.getMethod();
+        handler = handledMethod.getHandler();
 
         name = method.getDeclaringClass().getCanonicalName() + "#" + method.getName();
         event = EventReflectionUtils.getEventFromMethod(method);
-        priority = EventReflectionUtils.getEventPriorityFromMethod(method);
-        ignoreCancelled = EventReflectionUtils.getIgnoreCancelledFromMethod(method);
+        priority = handler.getEventPriority(method);
+        ignoreCancelled = handler.shouldIgnoreCancellable(method);
     }
 
     /**
@@ -44,7 +47,6 @@ public class RegisteredEventHandler {
     public void invoke(Event event) {
         try {
             method.invoke(listener, event);
-            if (eventManager.isDebugLoggingEnabled()) System.out.println("[EventManager] Launching '" + name + "' event handler.");
         } catch (Exception e) {
             System.err.println("[EventManager] Error launching '" + name + "' event handler.");
             e.printStackTrace();
