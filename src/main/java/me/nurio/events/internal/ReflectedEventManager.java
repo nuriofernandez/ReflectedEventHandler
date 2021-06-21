@@ -18,8 +18,15 @@ import java.util.stream.Collectors;
  */
 public class ReflectedEventManager implements EventManager {
 
+    /**
+     * Internal management of events registration, un-registration, etc.
+     */
     private final EventManagement eventManagement = new EventManagement(this);
 
+    /**
+     * Internal management of event handling annotations.
+     * To register annotations it requires an event annotation handler.
+     */
     private final EventAnnotationHandlersManager handlersManager = new EventAnnotationHandlersManager() {{
         addAnnotationHandler(new EventHandlerAnnotationEventHandler());
     }};
