@@ -1,10 +1,13 @@
 package me.nurio.events;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import me.nurio.events.internal.ReflectedEventManager;
 
 /**
  * Main entry point of the ReflectedEventHandler library.
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReflectedEventHandler {
 
     /**
