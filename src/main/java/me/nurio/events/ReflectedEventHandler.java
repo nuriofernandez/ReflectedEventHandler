@@ -15,7 +15,7 @@ public class ReflectedEventHandler {
      *
      * @return EventManager instance ready to be used.
      */
-    public static ReflectedEventManager createEventManager() {
+    public static EventManager createEventManager() {
         return new ReflectedEventManager();
     }
 
