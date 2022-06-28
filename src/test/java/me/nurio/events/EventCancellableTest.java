@@ -3,29 +3,34 @@ package me.nurio.events;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import me.nurio.events.handler.*;
+import me.nurio.events.handler.Event;
+import me.nurio.events.handler.EventCancellable;
+import me.nurio.events.handler.EventHandler;
+import me.nurio.events.handler.EventListener;
+import me.nurio.events.handler.EventPriority;
 import me.nurio.events.internal.ReflectedEventManager;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 /**
  * This class tests the behavior of event execution flow when some of them were cancelled.
  */
-public class EventCancellableTest {
+class EventCancellableTest {
 
     private EventManager eventManager;
 
-    @Before
-    public void registerEvent() {
+    @BeforeEach
+    void registerEvent() {
         eventManager = new ReflectedEventManager();
         eventManager.registerEvents(new IgnoredCancelledEventTestListener());
     }
 
     @Test
-    public void callEvent_shouldIgnoreEventsAfterCancelled() {
+    void callEvent_shouldIgnoreEventsAfterCancelled() {
         // Create CancellableEvent and call it.
         CancellableEvent event = new CancellableEvent("This should be changed.");
         eventManager.callEvent(event);

@@ -9,34 +9,34 @@ import me.nurio.events.handler.EventDispatchEvent;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
 import me.nurio.events.internal.ReflectedEventManager;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This test will ensure that the EventDispatchEvent cancellation prevents the event from being dispatched.
  */
-public class EventDispatchEventCancellationTest {
+class EventDispatchEventCancellationTest {
 
     private EventManager eventManager;
 
-    @Before
-    public void registerEventManager() {
+    @BeforeEach
+    void registerEventManager() {
         eventManager = new ReflectedEventManager();
         eventManager.registerEvents(new TestListener());
     }
 
     @Test
-    public void eventDispatchEventCancellationIsPreventingEventCall() {
+    void eventDispatchEventCancellationIsPreventingEventCall() {
         TestEvent testEvent = new TestEvent("cancel-me");
         eventManager.callEvent(testEvent);
         assertFalse(testEvent.isCalled());
     }
 
     @Test
-    public void eventDispatchEventListeningIsNotPreventingEventCall() {
+    void eventDispatchEventListeningIsNotPreventingEventCall() {
         TestEvent testEvent = new TestEvent("random-name-not-cancelling");
         eventManager.callEvent(testEvent);
         assertTrue(testEvent.isCalled());

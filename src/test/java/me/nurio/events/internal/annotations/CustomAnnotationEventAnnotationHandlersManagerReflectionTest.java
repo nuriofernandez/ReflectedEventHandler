@@ -3,33 +3,33 @@ package me.nurio.events.internal.annotations;
 import lombok.Getter;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventListener;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.lang.annotation.*;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This class will test the EventRefection behavior with valid and invalid event handlers.
  */
-public class CustomAnnotationEventAnnotationHandlersManagerReflectionTest {
+class CustomAnnotationEventAnnotationHandlersManagerReflectionTest {
 
     private EventAnnotationHandlersManager handlersManager;
 
-    @Before
-    public void setupHandlersManager() {
+    @BeforeEach
+    void setupHandlersManager() {
         handlersManager = new EventAnnotationHandlersManager() {{
             addAnnotationHandler(new TestEventHandlerAnnotationHandler());
         }};
     }
 
     @Test
-    public void hasHandlers_shouldReturnFalse_whenProvidedMethodWasNotHandled() throws NoSuchMethodException {
+    void hasHandlers_shouldReturnFalse_whenProvidedMethodWasNotHandled() throws NoSuchMethodException {
         // Obtain isHandled response from nonHandledMethod
         Method nonHandledMethod = WrongTestListener.class.getMethod("nonEventMethod");
         boolean isHandled = handlersManager.hasHandlers(nonHandledMethod);
@@ -39,7 +39,7 @@ public class CustomAnnotationEventAnnotationHandlersManagerReflectionTest {
     }
 
     @Test
-    public void hasHandlers_shouldReturnTrue_whenProvidedMethodWasHandled() throws NoSuchMethodException {
+    void hasHandlers_shouldReturnTrue_whenProvidedMethodWasHandled() throws NoSuchMethodException {
         // Obtain isHandled response from handledMethod
         Method handledMethod = WrongTestListener.class.getMethod("fineEventMethod", TestEvent.class);
         boolean isHandled = handlersManager.hasHandlers(handledMethod);
@@ -49,7 +49,7 @@ public class CustomAnnotationEventAnnotationHandlersManagerReflectionTest {
     }
 
     @Test
-    public void handledMethodsFrom_shouldReturnAllMethodWithEventHandlerAnnotation() {
+    void handledMethodsFrom_shouldReturnAllMethodWithEventHandlerAnnotation() {
         // Obtain method names that have @EventHandler annotation
         List<Method> eventHandledMethods = handlersManager.handledMethodsFrom(WrongTestListener.class);
         List<String> methodNames = eventHandledMethods.stream().map(Method::getName).collect(Collectors.toList());

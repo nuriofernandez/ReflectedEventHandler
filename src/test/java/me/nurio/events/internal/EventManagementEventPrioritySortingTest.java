@@ -5,30 +5,30 @@ import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
 import me.nurio.events.handler.EventPriority;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * This test will prove that EventManagement are sorting event handlers by his priority as excepted.
  */
-public class EventManagementEventPrioritySortingTest {
+class EventManagementEventPrioritySortingTest {
 
     private EventManager eventManager;
     private EventManagement eventManagement;
 
-    @Before
-    public void registerEventManager() throws NoSuchFieldException, IllegalAccessException {
+    @BeforeEach
+    void registerEventManager() throws NoSuchFieldException, IllegalAccessException {
         eventManager = new ReflectedEventManager();
         eventManagement = getEventManagement();
     }
 
     @Test
-    public void getEventHandlersFor_shouldReturnEventsSortedByPriority_whenProvidedListenerHasDifferentPrioritizedEvents() throws NoSuchFieldException, IllegalAccessException {
+    void getEventHandlersFor_shouldReturnEventsSortedByPriority_whenProvidedListenerHasDifferentPrioritizedEvents() throws NoSuchFieldException, IllegalAccessException {
         // Register listeners with prioritized events
         eventManager.registerEvents(new PriorityTestListener());
 

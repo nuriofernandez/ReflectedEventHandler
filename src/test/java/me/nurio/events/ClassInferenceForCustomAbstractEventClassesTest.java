@@ -6,27 +6,27 @@ import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
 import me.nurio.events.internal.ReflectedEventManager;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test if <b>Reflected Event Handler</b> allows class inference for custom abstract event classes
  *
  * @link https://github.com/xXNurioXx/ReflectedEventHandler/issues/22
  */
-public class ClassInferenceForCustomAbstractEventClassesTest {
+class ClassInferenceForCustomAbstractEventClassesTest {
 
     private EventManager eventManager;
 
-    @Before
-    public void registerEventManager() {
+    @BeforeEach
+    void registerEventManager() {
         eventManager = new ReflectedEventManager();
     }
 
     @Test
-    public void test() {
+    void test() {
         // Register event listeners
         eventManager.registerEvents(new TestListener());
 

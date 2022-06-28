@@ -5,27 +5,27 @@ import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
 import me.nurio.events.internal.ReflectedEventManager;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * This class will prove that EventManager#callEvent calls all matching event handlers.
  */
-public class EventManagerEventCallingIntegrationTest {
+class EventManagerEventCallingIntegrationTest {
 
     private EventManager eventManager;
 
-    @Before
-    public void registerEventManager() {
+    @BeforeEach
+    void registerEventManager() {
         eventManager = new ReflectedEventManager();
         eventManager.registerEvents(new EventModificationCounterListener());
         eventManager.registerEvents(new EventModificationCounterTwoListener());
     }
 
     @Test
-    public void everyMatchingEventHandler_shouldBeExecuted_whenCallingMatchingEvent() {
+    void everyMatchingEventHandler_shouldBeExecuted_whenCallingMatchingEvent() {
         ModificationCounterEvent event = new ModificationCounterEvent();
         eventManager.callEvent(event);
         assertEquals(3, event.getTimes());
