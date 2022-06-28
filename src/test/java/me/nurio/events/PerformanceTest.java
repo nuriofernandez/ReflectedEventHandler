@@ -4,20 +4,21 @@ import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
 import me.nurio.events.internal.ReflectedEventManager;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
 
 /**
  * This class is used to manually perform fast benchmarking of the call event process.
  */
-@Ignore
-public class PerformanceTest {
+@Disabled
+class PerformanceTest {
 
     private EventManager eventManager = new ReflectedEventManager();
     private static final int LOOPS = 100_000_000;
 
     @Test
-    public void test() {
+    void benchMarks() {
         eventManager.registerEvents(new TestListener());
         long start = System.currentTimeMillis();
         for (int i = 0; i < LOOPS; i++) {

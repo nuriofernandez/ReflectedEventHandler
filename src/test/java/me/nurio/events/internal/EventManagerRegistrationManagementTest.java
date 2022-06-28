@@ -6,31 +6,31 @@ import me.nurio.events.EventManager;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * This class proves the behavior of the EventManager event registering and event calling.
  */
-public class EventManagerRegistrationManagementTest {
+class EventManagerRegistrationManagementTest {
 
     private EventManager eventManager;
     private EventManagement eventManagement;
 
-    @Before
-    public void registerEventManager() throws NoSuchFieldException, IllegalAccessException {
+    @BeforeEach
+    void registerEventManager() throws NoSuchFieldException, IllegalAccessException {
         eventManager = new ReflectedEventManager();
         eventManagement = getEventManagement();
     }
 
     @Test
-    public void registerEvents_shouldRegisterMethodsWithEventHandler_whenTheyAreCorrectlyWritten() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+    void registerEvents_shouldRegisterMethodsWithEventHandler_whenTheyAreCorrectlyWritten() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
         // Register events
         eventManager.registerEvents(new TestListener());
 
@@ -44,7 +44,7 @@ public class EventManagerRegistrationManagementTest {
     }
 
     @Test
-    public void unregisterEvents_shouldUnregisterRegisteredEventHandlerMethods_whenProvidedListenerAreAlreadyRegistered() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+    void unregisterEvents_shouldUnregisterRegisteredEventHandlerMethods_whenProvidedListenerAreAlreadyRegistered() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
         // Event to register & unregister
         TestListener testListener = new TestListener();
 

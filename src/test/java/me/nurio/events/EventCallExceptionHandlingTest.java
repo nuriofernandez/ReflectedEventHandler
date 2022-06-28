@@ -6,25 +6,25 @@ import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
 import me.nurio.events.internal.ReflectedEventManager;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * This class will test the behavior of an event handler that throws an exception.
  */
-public class EventCallExceptionHandlingTest {
+class EventCallExceptionHandlingTest {
 
     private EventManager eventManager;
 
-    @Before
-    public void registerEventManager() {
+    @BeforeEach
+    void registerEventManager() {
         eventManager = new ReflectedEventManager();
     }
 
     @Test
-    public void callingEventHandlerThatThrowExceptions_shouldNotStopTheEventExecutionFlow() {
+    void callingEventHandlerThatThrowExceptions_shouldNotStopTheEventExecutionFlow() {
         // Register event listeners
         eventManager.registerEvents(new TestListener());
         eventManager.registerEvents(new TestThatThrowsExceptionsListener());

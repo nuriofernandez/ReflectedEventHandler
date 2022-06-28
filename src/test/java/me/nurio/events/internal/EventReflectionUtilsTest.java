@@ -4,19 +4,20 @@ import me.nurio.events.exceptions.EventHandlerNotFoundException;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * This class will test the EventRefection behavior with valid and invalid event handlers.
  */
-public class EventReflectionUtilsTest {
+class EventReflectionUtilsTest {
 
     @Test
-    public void getEventFromMethod_shouldReturnEventClassFromMethod_whenProvidedMethodWasWellFormed() throws NoSuchMethodException {
+    void getEventFromMethod_shouldReturnEventClassFromMethod_whenProvidedMethodWasWellFormed() throws NoSuchMethodException {
         Method handledFineMethod = WrongTestListener.class.getMethod("fineEventMethod", TestEvent.class);
         Class<? extends Event> eventClass = EventReflectionUtils.getEventFromMethod(handledFineMethod);
 
@@ -24,20 +25,26 @@ public class EventReflectionUtilsTest {
         assertEquals(TestEvent.class, eventClass);
     }
 
-    @Test(expected = EventHandlerNotFoundException.class)
-    public void getEventFromMethod_shouldThrowEventHandlerNotFoundException_whenProvidedMethodHasNoEventParam() throws NoSuchMethodException {
+    @Test
+    void getEventFromMethod_shouldThrowEventHandlerNotFoundException_whenProvidedMethodHasNoEventParam() throws NoSuchMethodException {
         Method handledWrongMethod = WrongTestListener.class.getMethod("wrongEventMethod");
 
         // This call should throw an EventHandlerNotFoundException
-        EventReflectionUtils.getEventFromMethod(handledWrongMethod);
+        assertThrows(
+                EventHandlerNotFoundException.class,
+                ()->
+        EventReflectionUtils.getEventFromMethod(handledWrongMethod));
     }
 
-    @Test(expected = EventHandlerNotFoundException.class)
-    public void getEventFromMethod_shouldThrowEventHandlerNotFoundException_whenProvidedMethodHasParamButWasNotEvent() throws NoSuchMethodException {
+    @Test
+    void getEventFromMethod_shouldThrowEventHandlerNotFoundException_whenProvidedMethodHasParamButWasNotEvent() throws NoSuchMethodException {
         Method handledWrongMethod = WrongTestListener.class.getMethod("wrongEventMethodType", String.class);
 
         // This call should throw an EventHandlerNotFoundException
-        EventReflectionUtils.getEventFromMethod(handledWrongMethod);
+        assertThrows(
+                EventHandlerNotFoundException.class,
+                ()->
+                        EventReflectionUtils.getEventFromMethod(handledWrongMethod));
     }
 
     /**

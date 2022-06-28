@@ -6,29 +6,29 @@ import me.nurio.events.handler.EventDispatchEvent;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
 import me.nurio.events.internal.ReflectedEventManager;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This test will ensure that the EventDispatchEvent is being fired for all the event calls.
  */
-public class EventDispatchEventTest {
+class EventDispatchEventTest {
 
     private EventManager eventManager;
     private static boolean hasBeenCalled;
 
-    @Before
-    public void registerEventManager() {
+    @BeforeEach
+    void registerEventManager() {
         eventManager = new ReflectedEventManager();
         eventManager.registerEvents(new TestListener());
         hasBeenCalled = false;
     }
 
     @Test
-    public void eventDispatchEventIsBeingCalled() {
+    void eventDispatchEventIsBeingCalled() {
         assertFalse(hasBeenCalled);
         eventManager.callEvent(new TestEvent());
         assertTrue(hasBeenCalled);

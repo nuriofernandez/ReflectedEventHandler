@@ -1,32 +1,33 @@
 package me.nurio.events.internal;
 
+
 import me.nurio.events.EventManager;
 import me.nurio.events.handler.Event;
 import me.nurio.events.handler.EventHandler;
 import me.nurio.events.handler.EventListener;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * This class proves the behavior of the EventManager registered listeners listing.
  */
-public class EventManagerRegisteredListenersListingTest {
+class EventManagerRegisteredListenersListingTest {
 
     private EventManager eventManager;
     private EventManagement eventManagement;
 
-    @Before
-    public void registerEventManager() throws NoSuchFieldException, IllegalAccessException {
+    @BeforeEach
+    void registerEventManager() throws NoSuchFieldException, IllegalAccessException {
         eventManager = new ReflectedEventManager();
         eventManagement = getEventManagement();
     }
 
     @Test
-    public void getRegisteredListeners_shouldNotReturnDuplicatedEntries_whenRegisteredListenerHasMultipleHandlers() {
+    void getRegisteredListeners_shouldNotReturnDuplicatedEntries_whenRegisteredListenerHasMultipleHandlers() {
         // Register events
         eventManager.registerEvents(new FirstTestListener());
 
@@ -38,7 +39,7 @@ public class EventManagerRegisteredListenersListingTest {
     }
 
     @Test
-    public void getRegisteredListeners_shouldReturnDuplicatedEntries_whenRegisteredListenerHasRegisteredTwice() {
+    void getRegisteredListeners_shouldReturnDuplicatedEntries_whenRegisteredListenerHasRegisteredTwice() {
         // Register events
         eventManager.registerEvents(new FirstTestListener());
         eventManager.registerEvents(new FirstTestListener());
@@ -51,7 +52,7 @@ public class EventManagerRegisteredListenersListingTest {
     }
 
     @Test
-    public void getRegisteredListeners_shouldReturnTwoEntries_whenThereAreTwoRegisteredListeners() {
+    void getRegisteredListeners_shouldReturnTwoEntries_whenThereAreTwoRegisteredListeners() {
         // Register events
         eventManager.registerEvents(new FirstTestListener());
         eventManager.registerEvents(new SecondTestListener());
