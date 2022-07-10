@@ -31,9 +31,9 @@ class EventReflectionUtilsTest {
 
         // This call should throw an EventHandlerNotFoundException
         assertThrows(
-                EventHandlerNotFoundException.class,
-                ()->
-        EventReflectionUtils.getEventFromMethod(handledWrongMethod));
+            EventHandlerNotFoundException.class,
+            () -> EventReflectionUtils.getEventFromMethod(handledWrongMethod)
+        );
     }
 
     @Test
@@ -42,9 +42,9 @@ class EventReflectionUtilsTest {
 
         // This call should throw an EventHandlerNotFoundException
         assertThrows(
-                EventHandlerNotFoundException.class,
-                ()->
-                        EventReflectionUtils.getEventFromMethod(handledWrongMethod));
+            EventHandlerNotFoundException.class,
+            () -> EventReflectionUtils.getEventFromMethod(handledWrongMethod)
+        );
     }
 
     /**
